@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="../principal.xhtml">
+    
+    <style type="text/css">
+                                .coluna10 {
+                                    border: 0 none !important;
+                                    font-size: 12px !important;
+                                    width: 10%;
+                                        line-height: 13px;
+                                }
+                                .coluna15 {
+                                    border: 0 none !important;
+                                    font-size: 12px !important;
+                                    width: 15%;
+                                        line-height: 13px;
+                                }
+                                .coluna20 {
+                                    border: 0 none !important;
+                                    font-size: 12px !important;
+                                    width: 20%;
+                                        line-height: 13px;
+                                }
+                                .coluna25 {
+                                    border: 0 none !important;
+                                    font-size: 12px !important;
+                                    width: 25%;
+                                        line-height: 13px;
+                                }                                
+                                .coluna30 {
+                                    border: 0 none !important;
+                                    font-size: 12px !important;
+                                    width: 30%;
+                                        line-height: 13px;
+                                }                                
+                                .coluna35 {
+                                    border: 0 none !important;
+                                    font-size: 12px !important;
+                                    width: 35%;
+                                        line-height: 13px;
+                                }
+    </style>
+    <ui:define name="body">
+        <h:form id="form-usuario" prependId="false">
+            <p:fieldset legend="Cadastro de usuários">
+                <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
+                    
+                    <p:outputLabel value="Login:" />
+                    <p:inputText id="login" maxlength="100" value="#{usuarioBean.usuario.login}"/>
+                    
+                    <p:outputLabel value="Senha:" for="senha"/>
+                    <p:password id="senha" value="#{usuarioBean.usuario.senha}" maxlength="40" redisplay="true"/>
+                    
+                    <p:outputLabel value="Email:" for="email"/>
+                    <p:inputText id="email" maxlength="100" value="#{usuarioBean.usuario.email}"/>
+                    
+                    <p:outputLabel value="CNPJ:" for="cnpj"/>
+                    <p:inputText id="cnpj" maxlength="100" value="#{usuarioBean.usuario.cnpj}"/>
+                </h:panelGrid>	
+                <h:panelGrid columns="6" columnClasses="coluna10,coluna30,coluna15,coluna15,coluna15,coluna15" width="100%">
+                    <p:outputLabel value="Morador: " for="morador"/>
+                    <p:selectOneMenu id="morador" value="#{usuarioBean.idMorador}" >  
+                        <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
+                        <f:selectItems value="#{usuarioBean.listMoradores}" var="morador" itemValue="#{morador.id}" itemLabel="#{morador.nome}"  />
+                    </p:selectOneMenu> 
+                        
+                    <p:outputLabel value="Sindico: " />
+                    <p:selectBooleanCheckbox id="flSindico" value="#{usuarioBean.usuario.sindico}">
+                        <p:ajax event="change" />
+                    </p:selectBooleanCheckbox>
+                        
+                        
+                    <p:outputLabel value="Ativo: " />
+                    <p:selectBooleanCheckbox id="flAtivo" value="#{usuarioBean.usuario.ativo}">
+                        <p:ajax event="change" />
+                    </p:selectBooleanCheckbox>
+                        
+                </h:panelGrid>	
+            </p:fieldset>
+            <br/>
+            <center>
+                <p:commandButton id="cb-save" value="Salvar" action="#{usuarioBean.save()}" title="Salvar" ajax="false" 
+                                 update=":msgs"/>
+                <h:outputText value="&#160;&#160;&#160;"/>
+                <p:commandButton id="cb-novo" value="Novo" action="#{usuarioBean.novo()}" title="Novo" ajax="false" />
+            </center>
+            <br/>
+                
+            <p:dataTable 
+                id="dt-usuario"
+                value="#{usuarioBean.listUsuarios}"
+                var="usuario"
+                paginator="true" 
+                lazy="true" 
+                rows="10" 
+                emptyMessage="Não há dados cadastrados" 
+                rowsPerPageTemplate="5,10,25,50,100,200"
+                
+                paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                currentPageReportTemplate="{currentPage} / {totalPages}"
+                rowIndexVar="rowIx">
+                
+                <p:column headerText="Login">
+                    <h:outputText value="#{usuario.login}" />
+                </p:column>
+                <p:column headerText="E-mail">
+                    <h:outputText value="#{usuario.email}" />
+                </p:column>
+                <p:column headerText="CNPJ">
+                    <h:outputText value="#{usuario.cnpj}" />
+                </p:column>
+                
+                <p:column headerText="Ações" style="text-align: center;" width="150">
+                    <p:commandButton update=":form-usuario" action="#{usuarioBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                        <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
+                    </p:commandButton>
+                    <h:outputText value="&#160;&#160;&#160;" />
+                    <p:commandButton id="cl-excluir" ajax="false" action="#{usuarioBean.delete()}" title="Excluir" icon="ui-icon ui-icon-trash">
+                        <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>
+
