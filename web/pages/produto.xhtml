@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="../principal.xhtml">
+    
+    <ui:define name="body">
+        <h:form id="form-produto" prependId="false">
+            <p:fieldset legend="Cadastro de produtos">
+                <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
+                                        
+                    <p:outputLabel value="Descrição:" />
+                    <p:inputText id="descricao" maxlength="100" value="#{produtoBean.produto.descricao}"/>
+                    
+                    <p:outputLabel value="Unidade medida:" />
+                    <p:selectOneMenu id="unidadeMedida" value="#{produtoBean.produto.unidadeMedida}" >  
+                        <f:selectItem itemLabel="[Selecione]" itemValue="" />  
+                        <f:selectItem itemLabel="Kg(quilograma)" itemValue="Kg" /> 
+                        <f:selectItem itemLabel="l(litro)" itemValue="L" /> 
+                    </p:selectOneMenu> 
+                    
+                    <p:outputLabel value="Marca:" />
+                    <p:inputText id="marca" maxlength="100" value="#{produtoBean.produto.marca}"/>
+                    
+                    <p:outputLabel value="Preço compra:" />
+                    <p:inputNumber style="text-align:right;" id="precoCompra" value="#{produtoBean.produto.precoCompra}"
+			decimalSeparator="," thousandSeparator="." size="11" />
+                    
+                    <p:outputLabel value="Fornecedor " />
+                    <p:selectOneMenu id="fornecedor" value="#{produtoBean.idFornecedor}" >  
+                        <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
+                        <f:selectItems value="#{produtoBean.listFornecedores}" var="fornecedor" itemValue="#{fornecedor.id}" itemLabel="#{fornecedor.nome}"  />
+                    </p:selectOneMenu> 
+                    
+                    <p:outputLabel value="Observação: " />
+                    <p:inputTextarea id="observacao" value="#{produtoBean.produto.observacao}" cols="40"/>
+                    
+                </h:panelGrid>	
+            </p:fieldset>
+            <br/>
+            <center>
+                <p:commandButton id="cb-save" value="Salvar" action="#{produtoBean.save()}" title="Salvar" ajax="false" 
+                                 update=":msgs"/>
+                <h:outputText value="&#160;&#160;&#160;"/>
+                <p:commandButton id="cb-novo" value="Novo" action="#{produtoBean.novo()}" title="Novo" ajax="false" />
+            </center>
+            <br/>
+            
+            <p:dataTable 
+                id="dt-produto"
+                value="#{produtoBean.listProdutos}"
+                var="produto"
+                paginator="true" 
+                lazy="true" 
+                rows="10" 
+                emptyMessage="Não há dados cadastrados" 
+                rowsPerPageTemplate="5,10,25,50,100,200"
+                
+                paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                currentPageReportTemplate="{currentPage} / {totalPages}"
+                rowIndexVar="rowIx">
+                
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{produto.descricao}" />
+                </p:column>
+                <p:column headerText="Marca">
+                    <h:outputText value="#{produto.marca}" />
+                </p:column>
+                <p:column headerText="Preço compra">
+                    <h:outputText value="#{produto.precoCompra}" >
+                    	<f:convertNumber type="currency" locale="pt_BR" pattern="#,##0.00" />
+                    </h:outputText>
+                </p:column>                
+                <p:column headerText="Fornecedor">
+                    <h:outputText value="#{produto.fornecedor.nome}" />
+                </p:column>
+                
+                
+                <p:column headerText="Ações" style="text-align: center;" width="150">
+                    <p:commandButton update=":form-produto" action="#{produtoBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                        <f:setPropertyActionListener target="#{produtoBean.produto}" value="#{produto}"/>
+                    </p:commandButton>
+                    <h:outputText value="&#160;&#160;&#160;" />
+                    <p:commandButton id="cl-excluir" ajax="false" action="#{produtoBean.delete()}" title="Excluir" icon="ui-icon ui-icon-trash">
+                        <f:setPropertyActionListener target="#{produtoBean.produto}" value="#{produto}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>
+

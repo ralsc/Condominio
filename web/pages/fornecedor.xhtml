@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="../principal.xhtml">
+    
+    <ui:define name="body">
+        <h:form id="form-fornecedor" prependId="false">
+            <p:fieldset legend="Cadastro de fornecedores">
+                <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
+                                        
+                    <p:outputLabel value="Nome:" />
+                    <p:inputText id="nome" maxlength="100" value="#{fornecedorBean.fornecedor.nome}"/>
+                    
+                    <p:outputLabel value="Endereço" />
+                    <p:inputText id="endereco" value="#{fornecedorBean.fornecedor.endereco}" />
+                    
+                    <p:outputLabel value="CPF/CNPJ:" />
+                    <p:inputText id="cpfCnpf" maxlength="100" value="#{fornecedorBean.fornecedor.cpfCnpj}"/>
+                    
+                    <p:outputLabel value="Observação:" />
+                    <p:inputTextarea id="observacao" value="#{fornecedorBean.fornecedor.observacao}" cols="40"/>
+                    
+                </h:panelGrid>	
+            </p:fieldset>
+            <br/>
+            <center>
+                <p:commandButton id="cb-save" value="Salvar" action="#{fornecedorBean.save()}" title="Salvar" ajax="false" 
+                                 update=":msgs"/>
+                <h:outputText value="&#160;&#160;&#160;"/>
+                <p:commandButton id="cb-novo" value="Novo" action="#{fornecedorBean.novo()}" title="Novo" ajax="false" />
+            </center>
+            <br/>
+            
+            <p:dataTable 
+                id="dt-fornecedor"
+                value="#{fornecedorBean.listFornecedores}"
+                var="fornecedor"
+                paginator="true" 
+                lazy="true" 
+                rows="10" 
+                emptyMessage="Não há dados cadastrados" 
+                rowsPerPageTemplate="5,10,25,50,100,200"
+                
+                paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                currentPageReportTemplate="{currentPage} / {totalPages}"
+                rowIndexVar="rowIx">
+                
+                <p:column headerText="Nome">
+                    <h:outputText value="#{fornecedor.nome}" />
+                </p:column>
+                <p:column headerText="Cpf/Cnpj">
+                    <h:outputText value="#{fornecedor.cpfCnpj}" />
+                </p:column>
+                <p:column headerText="Endereço">
+                    <h:outputText value="#{fornecedor.endereco}" />
+                </p:column>
+                
+                <p:column headerText="Ações" style="text-align: center;" width="150">
+                    <p:commandButton update=":form-fornecedor" action="#{fornecedorBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                        <f:setPropertyActionListener target="#{fornecedorBean.fornecedor}" value="#{fornecedor}"/>
+                    </p:commandButton>
+                    <h:outputText value="&#160;&#160;&#160;" />
+                    <p:commandButton id="cl-excluir" ajax="false" action="#{fornecedorBean.delete()}" title="Excluir" icon="ui-icon ui-icon-trash">
+                        <f:setPropertyActionListener target="#{fornecedorBean.fornecedor}" value="#{fornecedor}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>
+
