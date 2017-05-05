@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="../principal.xhtml">
+    
+    <ui:define name="body">
+        <h:form id="form-unidade" prependId="false">
+            <p:fieldset legend="Cadastro de unidades">
+                <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
+                                        
+                    <p:outputLabel value="Numero:" />
+                    <p:inputText id="numero" maxlength="100" value="#{unidadeBean.unidade.numero}"/>
+                    
+                    <p:outputLabel value="Descrição:" />
+                    <p:inputText id="descricao" value="#{unidadeBean.unidade.descricao}" maxlength="40"/>
+                    
+                </h:panelGrid>	
+            </p:fieldset>
+            <br/>
+            <center>
+                <p:commandButton id="cb-save" value="Salvar" action="#{unidadeBean.save()}" title="Salvar" ajax="false" 
+                                 update=":msgs"/>
+                <h:outputText value="&#160;&#160;&#160;"/>
+                <p:commandButton id="cb-novo" value="Novo" action="#{unidadeBean.novo()}" title="Novo" ajax="false" />
+            </center>
+            <br/>
+            
+            <p:dataTable 
+                id="dt-unidade"
+                value="#{unidadeBean.listUnidades}"
+                var="unidade"
+                paginator="true" 
+                lazy="true" 
+                rows="10" 
+                emptyMessage="Não há dados cadastrados" 
+                rowsPerPageTemplate="5,10,25,50,100,200"
+                
+                paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                currentPageReportTemplate="{currentPage} / {totalPages}"
+                rowIndexVar="rowIx">
+                
+                <p:column headerText="Número">
+                    <h:outputText value="#{unidade.numero}" />
+                </p:column>
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{unidade.descricao}" />
+                </p:column>
+                
+                <p:column headerText="Ações" style="text-align: center;" width="150">
+                    <p:commandButton update=":form-unidade" action="#{unidadeBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                        <f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
+                    </p:commandButton>
+                    <h:outputText value="&#160;&#160;&#160;" />
+                    <p:commandButton id="cl-excluir" ajax="false" action="#{unidadeBean.delete()}" title="Excluir" icon="ui-icon ui-icon-trash">
+                        <f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>
+

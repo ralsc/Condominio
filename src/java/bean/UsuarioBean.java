@@ -5,6 +5,7 @@
 */
 package bean;
 
+import dao.MoradorDAO;
 import dao.UsuarioDAO;
 import entidades.Morador;
 import entidades.Usuario;
@@ -101,13 +102,6 @@ public class UsuarioBean implements Serializable{
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-//        if (this.listUsuarios == null) {
-//            this.listUsuarios = new ArrayList<Usuario>();
-//            Usuario usu = new Usuario(null, "0015", "Em aberto", "Em aberto", "R$ 1.650,37");
-//            listUsuarios.add(usu);
-//            usu = new Usuario(null, "0016", "Finalizado", "11/11/2016", "R$ 245,00");
-//            listUsuarios.add(usu);
-//        }
         return listUsuarios;
     }
     
@@ -118,7 +112,7 @@ public class UsuarioBean implements Serializable{
     public List<Morador> getListMoradores() {
         if (this.listMoradores == null) {
             try {
-                this.listMoradores.add(new Morador(1, "Juca", "rua do xgh", "123", "456"));
+                this.listMoradores = MoradorDAO.findAll();
             } catch (Exception ex) {
                 Logger.getLogger(UsuarioBean.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -146,16 +140,10 @@ public class UsuarioBean implements Serializable{
         this.idMorador = idMorador;
     }
 
-    /**
-     * @return the listVazia
-     */
     public List<Usuario> getListVazia() {
         return listVazia;
     }
 
-    /**
-     * @param listVazia the listVazia to set
-     */
     public void setListVazia(List<Usuario> listVazia) {
         this.listVazia = listVazia;
     }
