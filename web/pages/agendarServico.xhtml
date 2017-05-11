@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="../principal.xhtml">
+    
+    <ui:define name="body">
+        <h:form id="form-agendamentoServico" prependId="false">
+            <p:fieldset legend="Agendar serviço">
+                <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
+                                         
+                    <p:outputLabel value="Serviço: " />
+                    <p:selectOneMenu id="servico" value="#{agendamentoServicoBean.idServico}" >  
+                        <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
+                        <f:selectItems value="#{agendamentoServicoBean.listServicos}" var="servico" itemValue="#{servico.id}" itemLabel="#{servico.descricao}"  />
+                        <p:ajax event="change" update="valor, valorTotal" listener="#{agendamentoServicoBean.changeServico}"/>
+                    </p:selectOneMenu> 
+                    
+                    <p:outputLabel value="Data:" />
+                    <p:calendar id="data" value="#{agendamentoServicoBean.agendamentoServico.data}" readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
+                    
+                    <p:outputLabel value="Situação:" />
+                    <p:inputText id="descricao" maxlength="100" value="#{agendamentoServicoBean.agendamentoServico.situacao}"/>
+                    
+                    <p:outputLabel value="Valor:" />
+                    <p:inputNumber  id="valor" value="#{agendamentoServicoBean.agendamentoServico.valor}"
+			decimalSeparator="," thousandSeparator="." size="11" >
+                        <p:ajax event="change" update="valorTotal" listener="#{agendamentoServicoBean.changeValor}"/>
+                    </p:inputNumber>
+                    
+                </h:panelGrid>	
+                <br />
+                <h:panelGrid columns="6" columnClasses="coluna15,coluna20,coluna15,coluna20,coluna15,coluna15" width="100%">
+                    <p:outputLabel value="Forma pagamento:" />
+                    <p:inputText id="formaPagamento" maxlength="100" value="#{agendamentoServicoBean.agendamentoServico.pagamento.formaPagamento}"/>
+                    
+                    <p:outputLabel value="Data Pagamento:" />
+                    <p:calendar id="dataPagamento" value="#{agendamentoServicoBean.agendamentoServico.pagamento.data}"
+                                readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
+                    
+                    <p:outputLabel value="Valor Total:" />
+                    <p:inputNumber id="valorTotal" value="#{agendamentoServicoBean.agendamentoServico.pagamento.valor}"
+			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11" />
+                </h:panelGrid>	
+            </p:fieldset>
+            <br/>
+            <center>
+                <p:commandButton id="cb-save" value="Salvar" action="#{agendamentoServicoBean.save()}" title="Salvar" ajax="false" 
+                                 update=":msgs"/>
+                <h:outputText value="&#160;&#160;&#160;"/>
+                <p:commandButton id="cb-novo" value="Novo" action="#{agendamentoServicoBean.novo()}" title="Novo" ajax="false" />
+            </center>
+            <br/>
+            
+            <p:dataTable 
+                id="dt-agendamentoServico"
+                value="#{agendamentoServicoBean.listAgendamentoServicos}"
+                var="agendamentoServico"
+                paginator="true" 
+                lazy="true" 
+                rows="10" 
+                emptyMessage="Não há dados cadastrados" 
+                rowsPerPageTemplate="5,10,25,50,100,200"
+                
+                paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                currentPageReportTemplate="{currentPage} / {totalPages}"
+                rowIndexVar="rowIx">
+                
+                <p:column headerText="Serviço">
+                    <h:outputText value="#{agendamentoServico.servico.descricao}" />
+                </p:column>
+                <p:column headerText="Situação">
+                    <h:outputText value="#{agendamentoServico.situacao}" />
+                </p:column>
+                <p:column headerText="Data">
+                    <h:outputText value="#{agendamentoServico.data}" >
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Valor">
+                    <h:outputText value="#{agendamentoServico.valor}" >
+                        <f:convertNumber type="currency" locale="pt_BR" pattern="#,##0.00" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:column headerText="Ações" style="text-align: center;" width="150">
+                    <p:commandButton update=":form-agendamentoServico" action="#{agendamentoServicoBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                        <f:setPropertyActionListener target="#{agendamentoServicoBean.agendamentoServico}" value="#{agendamentoServico}"/>
+                    </p:commandButton>
+                    <h:outputText value="&#160;&#160;&#160;" />
+                    <p:commandButton id="cl-excluir" ajax="false" action="#{agendamentoServicoBean.delete()}" title="Excluir" icon="ui-icon ui-icon-trash">
+                        <f:setPropertyActionListener target="#{agendamentoServicoBean.agendamentoServico}" value="#{agendamentoServico}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>
+
