@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="../principal.xhtml">
+    
+    <ui:define name="body">
+        <h:form id="form-gerarBoleto" prependId="false">
+            <p:fieldset legend="Gerar Boleto(condomínio)">
+                <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
+                    
+                    <p:outputLabel value="Morador: " for="morador"/>
+                    <p:selectOneMenu id="morador" value="#{gerarBoletoBean.idMorador}" >  
+                        <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
+                        <f:selectItems value="#{gerarBoletoBean.listMoradores}" var="morador" itemValue="#{morador.id}" itemLabel="#{morador.nome}"  />
+                    </p:selectOneMenu> 
+                    <p:outputLabel />
+                    <p:outputLabel />
+                    
+                    <p:outputLabel value="Data vencimento:" />
+                    <p:calendar id="dataVencimento" value="#{gerarBoletoBean.condominio.data}"
+                                readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
+                    
+                    <p:outputLabel value="Valor condomínio:" />
+                    <p:inputNumber id="valorCondominio" value="#{gerarBoletoBean.condominio.valor}"
+			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11">
+                        <p:ajax event="change" update="valorTotal" listener="#{gerarBoletoBean.updateValorTotal}"/>
+                    </p:inputNumber>
+                </h:panelGrid> 
+                <br />
+                <div style="border-width: 1px; border-style: solid; border-color: #a6c9e2;" >
+                    <h:panelGrid id="item" cellspacing="3" columns="6"  columnClasses="coluna5,coluna10,coluna40,coluna10,coluna25,coluna10" width="100%">
+                        <p:outputLabel />		
+                        <p:outputLabel value="  Adicionar taxa/multa:" />
+                        <p:selectOneMenu id="tipoTaxaMulta" style="width:80%" value="#{gerarBoletoBean.idTipoTaxaMulta}">  
+                            <f:selectItem itemLabel=" [Selecione] " itemValue="0" /> 
+                            <f:selectItems value="#{gerarBoletoBean.listTipoTaxaMultas}" var="tipoTaxaMulta" 
+                                           itemValue="#{tipoTaxaMulta.id}" 
+                                           itemLabel="#{tipoTaxaMulta.tipo} - #{tipoTaxaMulta.descricao}"  />
+                            <p:ajax event="change" update="valorTaxa" listener="#{gerarBoletoBean.changeTaxaMulta}"/>
+                        </p:selectOneMenu>	
+                        
+                        <p:outputLabel value="Valor:" />
+                        <p:inputNumber id="valorTaxa" value="#{gerarBoletoBean.taxaMultaTemp.valor}"
+                            decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11"/>		
+                        
+                        <p:commandButton id="addItem" action="#{gerarBoletoBean.addItem()}" title="Adiciona taxa/multa" 
+                            style="margin-left: 1%;" ajax="false" icon="ui-icon ui-icon-plusthick" update="valorTotal"/>
+			
+                    </h:panelGrid>
+                    <center>
+                        <p:dataTable id="dt-itens" style="width:98%" value="#{gerarBoletoBean.condominio.listTaxaMulta}" var="taxaMulta" 
+                                     emptyMessage="Não há dados cadastrados" rowsPerPageTemplate="5,10,25,50,100,200" scrollHeight="98"
+                                     rowIndexVar="rowIx">
+                            
+                            <p:column headerText="Tipo" >
+                                <h:outputText value="#{taxaMulta.tipoTaxaMulta.tipo}" />
+                            </p:column>
+                            
+                            <p:column headerText="Descrição taxa/multa" >
+                                <h:outputText value="#{taxaMulta.descricao}" />
+                            </p:column>
+                            
+                            <p:column headerText="valor" >
+                                <h:outputText value="#{taxaMulta.valor}" >
+                                    <f:convertNumber type="currency" locale="pt_BR" pattern="#,##0.00" />
+                                </h:outputText>
+                            </p:column>							
+                            
+                            <p:column headerText="Ações" style="text-align:center;width:10%;">
+                                <p:commandButton title="Remover" action="#{gerarBoletoBean.remItem()}" ajax="false" icon="ui-icon-trash" update="valorTotal">
+                                    <f:setPropertyActionListener target="#{gerarBoletoBean.taxaMultaTemp}" value="#{taxaMulta}"/>
+                                </p:commandButton>
+                            </p:column>							
+                        </p:dataTable>
+                    </center>
+                    <br />
+                </div>
+                <br />	 
+                <h:panelGrid columns="6" columnClasses="coluna15,coluna20,coluna15,coluna20,coluna15,coluna15" width="100%">
+                    <p:outputLabel value="Forma pagamento:" />
+                    <p:inputText id="formaPagamento" maxlength="100" value="#{gerarBoletoBean.condominio.pagamento.formaPagamento}"/>
+                    
+                    <p:outputLabel value="Data Pagamento:" />
+                    <p:calendar id="dataPagamento" value="#{gerarBoletoBean.condominio.pagamento.data}"
+                                readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
+                    
+                    <p:outputLabel value="Valor Total:" />
+                    <p:inputNumber id="valorTotal" value="#{gerarBoletoBean.condominio.pagamento.valor}"
+			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11" />
+                </h:panelGrid>		
+            </p:fieldset>
+            <br/>
+            <center>
+                <p:commandButton id="cb-save" value="Salvar" action="#{gerarBoletoBean.save()}" title="Salvar" ajax="false" 
+                                 update=":msgs"/>
+                <h:outputText value="&#160;&#160;&#160;"/>
+                <p:commandButton id="cb-novo" value="Novo" action="#{gerarBoletoBean.novo()}" title="Novo" ajax="false" />
+            </center>
+            <br/>
+            
+            <p:dataTable 
+                id="dt-condominio"
+                value="#{gerarBoletoBean.listCondominio}"
+                var="condominio"
+                paginator="true" 
+                lazy="true" 
+                rows="10" 
+                emptyMessage="Não há dados cadastrados" 
+                rowsPerPageTemplate="5,10,25,50,100,200"
+                paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                currentPageReportTemplate="{currentPage} / {totalPages}"
+                rowIndexVar="rowIx">
+                
+                <p:column style="width:4%">
+                    <p:rowToggler />
+                </p:column>
+                
+                <p:column headerText="Morador">
+                    <h:outputText value="#{condominio.morador.nome}" />
+                </p:column>
+                <p:column headerText="Data vencimento">
+                    <h:outputText value="#{condominio.data}" >
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Data pagamento">
+                    <h:outputText value="#{condominio.pagamento.data}" >
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Valor total">
+                    <h:outputText value="#{condominio.pagamento.valor}" >
+                        <f:convertNumber type="currency" locale="pt_BR" pattern="#,##0.00" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:rowExpansion>
+                    <p:dataList value="#{condominio.listTaxaMulta}" var="taxaMulta" type="ordered">
+                        #{taxaMulta.detalhes}
+                    </p:dataList>
+                </p:rowExpansion>
+                <p:column headerText="Ações" style="text-align: center;" width="150">
+                    <p:commandButton update=":form-gerarBoleto" action="#{gerarBoletoBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                        <f:setPropertyActionListener target="#{gerarBoletoBean.condominio}" value="#{condominio}"/>
+                    </p:commandButton>
+                    <h:outputText value="&#160;&#160;&#160;" />
+                    <p:commandButton id="cl-excluir" ajax="false" action="#{gerarBoletoBean.delete()}" title="Excluir" icon="ui-icon ui-icon-trash">
+                        <f:setPropertyActionListener target="#{gerarBoletoBean.condominio}" value="#{condominio}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>
+

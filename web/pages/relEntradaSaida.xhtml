@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="../principal.xhtml">
+    
+    <ui:define name="body">
+        <h:form id="form-agendamentoServico" prependId="false">
+            <p:fieldset legend="Relatório de Entrada/Saída">
+                <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
+                                   
+                    <p:outputLabel value="Movimento: " />
+                    <p:selectOneMenu id="tipo" value="#{relEntradaSaidaBean.movimento}" >  
+                        <f:selectItem itemLabel="Todos" /> 
+                        <f:selectItem itemLabel="Entrada" itemValue="E" /> 
+                        <f:selectItem itemLabel="Saída" itemValue="S" /> 
+                    </p:selectOneMenu> 
+                    <p:outputLabel />
+                    <p:outputLabel />
+                    
+                    <p:outputLabel value="Data Inicial:" />
+                    <p:calendar id="dataIni" value="#{relEntradaSaidaBean.dataInicial}" readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
+                    
+                    <p:outputLabel value="Data Final:" />
+                    <p:calendar id="dataFim" value="#{relEntradaSaidaBean.dataFinal}" readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
+
+                </h:panelGrid>	
+            </p:fieldset>
+            <br/>
+            <center>
+                <p:commandButton id="cb-save" value="Gerar Relatório" action="#{relEntradaSaidaBean.gerarRelatorio()}" 
+                                 title="Gerar Relatório" ajax="false" update=":msgs"/>
+                <h:outputText value="&#160;&#160;&#160;"/>
+            </center>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>
+

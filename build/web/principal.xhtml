@@ -26,10 +26,23 @@
                         Rodapé caso necessário
                     </p:layoutUnit>
                     
-                    <p:layoutUnit position="west" size="175" header="Menu" collapsible="true">
+                    <p:layoutUnit position="west" size="250" header="Menu" collapsible="true">
                         <p:panelMenu>
                             <p:submenu label="Cadastros" rendered="#{loginBean.usuarioLogado.sindico}">
                                 <p:menuitem value="Usuário" outcome="/pages/usuario.xhtml" />
+                                <p:menuitem value="Unidade" outcome="/pages/unidade.xhtml" />
+                                <p:menuitem value="Taxa Multa" outcome="/pages/taxaMulta.xhtml" />
+                                <p:menuitem value="Morador" outcome="/pages/morador.xhtml" />
+                                <p:menuitem value="Fornecedor" outcome="/pages/fornecedor.xhtml" />
+                                <p:menuitem value="Produto" outcome="/pages/produto.xhtml" />
+                                <p:menuitem value="Serviço" outcome="/pages/servico.xhtml" />
+                            </p:submenu>
+                            <p:submenu label="Operações" rendered="#{loginBean.usuarioLogado.sindico}">
+                                <p:menuitem value="Agendar Serviço" outcome="/pages/agendarServico.xhtml" />
+                                <p:menuitem value="Gerar Boletos" outcome="/pages/gerarBoleto.xhtml" />
+                            </p:submenu>  
+                            <p:submenu label="Visualizações" >
+                                <p:menuitem value="Relatório de Entrada/Saída" outcome="/pages/relEntradaSaida.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
                             </p:submenu>
                         </p:panelMenu>
                     </p:layoutUnit>
