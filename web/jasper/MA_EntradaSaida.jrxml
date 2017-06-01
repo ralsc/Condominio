@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MA_Pessoa" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fd67437c-76e2-4cca-adc1-2c55e3f90c2b">
-	<property name="ireport.zoom" value="1.1000000000000005"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="212"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="LOGO" class="java.io.InputStream"/>
 	<field name="_THIS" class="java.lang.Object"/>
-	<variable name="ALUNOS_COUNT" class="java.lang.Integer" resetType="Group" resetGroup="COLUNAS" calculation="Count">
-		<variableExpression><![CDATA[$F{_THIS}]]></variableExpression>
+	<variable name="TOTAL_ENTRADA" class="java.lang.Float" resetType="Group" resetGroup="COLUNAS" calculation="Sum">
+		<variableExpression><![CDATA[$F{_THIS}.getMovimento().equals("E")
+? $F{_THIS}.getValor() : 0.0]]></variableExpression>
+	</variable>
+	<variable name="TOTAL_SAIDA" class="java.lang.Float" resetType="Group" resetGroup="COLUNAS" calculation="Sum">
+		<variableExpression><![CDATA[$F{_THIS}.getMovimento().equals("S")
+? $F{_THIS}.getValor() : 0.0]]></variableExpression>
 	</variable>
 	<group name="COLUNAS" isReprintHeaderOnEachPage="true">
 		<groupHeader>
@@ -75,19 +80,44 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="30">
-				<textField pattern="" isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToBandHeight" x="415" y="0" width="140" height="16" uuid="3240f520-a68f-46ad-b61e-020579da8d29"/>
-					<box leftPadding="0" rightPadding="0">
-						<pen lineWidth="0.0"/>
-						<topPen lineWidth="0.0"/>
-						<leftPen lineWidth="0.0"/>
-						<bottomPen lineWidth="0.0"/>
-						<rightPen lineWidth="0.0"/>
+				<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="468" y="0" width="87" height="16" forecolor="#000000" backcolor="#CCCCCC" uuid="3c7ae104-d621-4b00-b961-f446123d27ae"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
 					</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10" pdfFontName="Helvetica-Bold"/>
+						<font size="9" pdfFontName="Helvetica-Bold"/>
 					</textElement>
-					<textFieldExpression><![CDATA["Total de alunos: " + $V{ALUNOS_COUNT}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{TOTAL_SAIDA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="381" height="16" forecolor="#000000" backcolor="#CCCCCC" uuid="043e3036-1adc-49d9-94cf-16def131f365"/>
+					<box rightPadding="3">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<text><![CDATA[TOTAL GERAL]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+					<reportElement mode="Opaque" x="381" y="0" width="87" height="16" forecolor="#000000" backcolor="#CCCCCC" uuid="bdcd85dd-9b55-41b6-bb62-e40f1cf7e72c"/>
+					<box rightPadding="2">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="9" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TOTAL_ENTRADA}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -99,13 +129,13 @@
 		<band splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="60" splitType="Stretch">
+		<band height="75" splitType="Stretch">
 			<image scaleImage="RetainShape" hAlign="Center" vAlign="Middle" isUsingCache="true" onErrorType="Blank">
 				<reportElement x="478" y="0" width="77" height="40" uuid="d96d9333-34f0-42a4-b26f-11327a1364d8"/>
 				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="0" y="40" width="555" height="20" uuid="85835556-b349-436a-b399-3eeeccaf013f"/>
+				<reportElement x="0" y="55" width="555" height="20" uuid="85835556-b349-436a-b399-3eeeccaf013f"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -161,13 +191,13 @@
 			</textField>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="468" y="0" width="87" height="16" uuid="18f25e02-4b91-43d8-ae08-ba81a9acec65"/>
-				<box rightPadding="0">
+				<box rightPadding="2">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_THIS}.getMovimento().equals("S")
@@ -188,13 +218,13 @@
 			</textField>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="381" y="0" width="87" height="16" uuid="896282e2-96a1-4a18-a831-51c99843e2eb"/>
-				<box rightPadding="0">
+				<box rightPadding="2">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{_THIS}.getMovimento().equals("E")

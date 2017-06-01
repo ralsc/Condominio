@@ -28,6 +28,10 @@ public class Unidade implements Serializable{
     private String numero;
     @Column
     private String descricao;
+    @Column
+    private Float leituraGasAnterior;
+    @Column
+    private Float leituraGasAtual;
     
     public Unidade(){}
     
@@ -35,10 +39,12 @@ public class Unidade implements Serializable{
         this.id = id;
     }
 
-    public Unidade(Integer id, String numero, String descricao) {
+    public Unidade(Integer id, String numero, String descricao, Float leituraGasAnterior, Float leituraGasAtual) {
         this.id = id;
         this.numero = numero;
         this.descricao = descricao;
+        this.leituraGasAnterior = leituraGasAnterior;
+        this.leituraGasAtual = leituraGasAtual;
     }
 
     public Integer getId() {
@@ -64,5 +70,24 @@ public class Unidade implements Serializable{
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public Float getLeituraGasAnterior() {
+        return leituraGasAnterior;
+    }
+
+    public void setLeituraGasAnterior(Float leituraGasAnterior) {
+        this.leituraGasAnterior = leituraGasAnterior;
+    }
+
+    public Float getLeituraGasAtual() {
+        return leituraGasAtual;
+    }
+
+    public void setLeituraGasAtual(Float leituraGasAtual) {
+        this.leituraGasAtual = leituraGasAtual;
+    }
     
+    public Float getConsumoGasAtual(){
+        return this.getLeituraGasAtual() - this.getLeituraGasAnterior();
+    }
 }

@@ -10,13 +10,14 @@
     
     <ui:define name="body">
         <h:form id="form-taxaMulta" prependId="false">
-            <p:fieldset legend="Cadastro de Taxas/Multas">
+            <p:fieldset legend="Cadastro de Taxas/Multas/Gás">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                                         
                     <p:outputLabel value="Tipo:" />
                     <p:selectOneMenu id="tipo" value="#{tipoTaxaMultaBean.tipoTaxaMulta.tipo}" >  
                         <f:selectItem itemLabel="Taxa" itemValue="Taxa" /> 
                         <f:selectItem itemLabel="Multa" itemValue="Multa" /> 
+                        <f:selectItem itemLabel="Gás" itemValue="Gas" /> 
                     </p:selectOneMenu> 
                     <p:outputLabel />
                     <p:outputLabel />

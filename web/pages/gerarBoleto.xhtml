@@ -17,6 +17,7 @@
                     <p:selectOneMenu id="morador" value="#{gerarBoletoBean.idMorador}" >  
                         <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
                         <f:selectItems value="#{gerarBoletoBean.listMoradores}" var="morador" itemValue="#{morador.id}" itemLabel="#{morador.nome}"  />
+                        <p:ajax event="change" update="form-gerarBoleto" />
                     </p:selectOneMenu> 
                     <p:outputLabel />
                     <p:outputLabel />

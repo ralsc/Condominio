@@ -56,13 +56,21 @@ public class GerarBoletoBean implements Serializable{
         for(TipoTaxaMulta ttm: listTipoTaxaMultas) {
             if(ttm.getId().equals(this.getIdTipoTaxaMulta())){
                 this.getTaxaMultaTemp().setTipoTaxaMulta(ttm);
-                this.getTaxaMultaTemp().setValor(ttm.getValor());
                 this.getTaxaMultaTemp().setDescricao(ttm.getDescricao());
+                this.getTaxaMultaTemp().setValor(ttm.getValor());
+                if(ttm.getTipo().equalsIgnoreCase("Gas") && !this.getIdMorador().equals(0)){
+                    for(Morador mora: listMoradores) {
+                        if(mora.getId().equals(this.getIdMorador())){
+                            this.getTaxaMultaTemp().setValor(mora.getUnidade().getLeituraGasAtual() * ttm.getValor());
+                        }
+                    }
+                }
             }    
         }
     }
     
     public void addItem() {
+        System.out.println(this.getIdMorador());
         for(TipoTaxaMulta tipoTaxaMulta: this.getListTipoTaxaMultas()){
             if(tipoTaxaMulta.getId().equals(this.getIdTipoTaxaMulta())){
                 this.getTaxaMultaTemp().setTipoTaxaMulta(tipoTaxaMulta);

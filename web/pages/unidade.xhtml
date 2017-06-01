@@ -19,6 +19,15 @@
                     <p:outputLabel value="Descrição:" />
                     <p:inputText id="descricao" value="#{unidadeBean.unidade.descricao}" maxlength="40"/>
                     
+                    <p:outputLabel value="Leitura anterior:" />
+                    <p:inputNumber id="leituraAnterior" value="#{unidadeBean.unidade.leituraGasAnterior}" decimalPlaces="3"
+			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11">
+                    </p:inputNumber>
+                    
+                    <p:outputLabel value="Leitura atual:" />
+                    <p:inputNumber id="leituraAtual" value="#{unidadeBean.unidade.leituraGasAtual}" decimalPlaces="3"
+			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11">
+                    </p:inputNumber>
                 </h:panelGrid>	
             </p:fieldset>
             <br/>
@@ -50,7 +59,16 @@
                 <p:column headerText="Descrição">
                     <h:outputText value="#{unidade.descricao}" />
                 </p:column>
-                
+                <p:column headerText="Leitura anterior">
+                    <h:outputText value="#{unidade.leituraGasAnterior}" >
+                        <f:convertNumber type="currency" locale="pt_BR" pattern="#,##0.000" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Leitura atual">
+                    <h:outputText value="#{unidade.leituraGasAtual}" >
+                        <f:convertNumber type="currency" locale="pt_BR" pattern="#,##0.000" />
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="Ações" style="text-align: center;" width="150">
                     <p:commandButton update=":form-unidade" action="#{unidadeBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
                         <f:setPropertyActionListener target="#{unidadeBean.unidade}" value="#{unidade}"/>
