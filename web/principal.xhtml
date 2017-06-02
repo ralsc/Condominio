@@ -43,6 +43,8 @@
                                 <p:menuitem value="Gerar Boletos" outcome="/pages/gerarBoleto.xhtml" />
                             </p:submenu>  
                             <p:submenu label="Visualizações" >
+                                <p:menuitem value="Moradores Inadimplentes" outcome="/pages/moradorInadimplente.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Visualizar Boleto" outcome="/pages/visualizarBoleto.xhtml" rendered="#{!loginBean.usuarioLogado.sindico}"/>
                                 <p:menuitem value="Relatório de Entrada/Saída" outcome="/pages/relEntradaSaida.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
                             </p:submenu>
                         </p:panelMenu>
