@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="../principal.xhtml">
+    
+    <ui:define name="body">
+        <h:form id="form-pedidoProduto" prependId="false">
+            <p:fieldset legend="Realizar pedido">
+                <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
+                    
+                    <p:outputLabel value="Número pedido:" />
+                    <p:inputText id="numero" maxlength="100" value="#{pedidoProdutoBean.pedidoProduto.numero}"/>
+                    
+                    <p:outputLabel value="Data Pedido:" />
+                    <p:calendar id="dataPedido" value="#{pedidoProdutoBean.pedidoProduto.data}"
+                                readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
+                    
+                    <p:outputLabel value="Situação: " />
+                    <p:inputText id="situacao" value="#{pedidoProdutoBean.pedidoProduto.situacao}" /> 
+                    
+                    <p:outputLabel value="Valor desconto:" />
+                    <p:inputNumber id="desconto" value="#{pedidoProdutoBean.pedidoProduto.desconto}"
+			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11">
+                        <p:ajax event="change" update="valorTotal" listener="#{pedidoProdutoBean.updateValorTotal}"/>
+                    </p:inputNumber>
+                </h:panelGrid> 
+                
+                <br />
+                <div style="border-width: 1px; border-style: solid; border-color: #a6c9e2;" >
+                    <h:panelGrid id="item" cellspacing="3" columns="6"  columnClasses="coluna5,coluna10,coluna40,coluna10,coluna25,coluna10" width="100%">
+                        <p:outputLabel />		
+                        <p:outputLabel value="  Adicionar produto:" />
+                        <p:selectOneMenu id="produto" style="width:80%" value="#{pedidoProdutoBean.idProduto}">  
+                            <f:selectItem itemLabel=" [Selecione] " itemValue="0" /> 
+                            <f:selectItems value="#{pedidoProdutoBean.listProdutos}" var="produto" itemValue="#{produto.id}" 
+                                           itemLabel="#{produto.descricao} - #{produto.precoCompra}"  />
+                        </p:selectOneMenu>	
+                        
+                        <p:outputLabel value="Quantidade:" />
+                        <p:spinner id="quantidade" value="#{pedidoProdutoBean.itemPedidoTemp.quantidade}" size="8" maxlength="11" min="0"/>
+                        
+                        <p:commandButton id="addItem" action="#{pedidoProdutoBean.addItem()}" title="Adiciona produto" 
+                                         style="margin-left: 1%;" ajax="false" icon="ui-icon ui-icon-plusthick" update="valorTotal"/>
+						
+                    </h:panelGrid>
+                    <center>
+                        <p:dataTable id="dt-itens" value="#{pedidoProdutoBean.pedidoProduto.listItemPedido}" var="item" 
+                                     emptyMessage="Não há dados cadastrados" rowsPerPageTemplate="5,10,25,50,100,200" 
+                                     rowIndexVar="rowIx" style="width:98%" scrollHeight="98">
+                            
+                            <p:column headerText="Descrição" >
+                                <p:outputLabel value="#{item.produto.descricao}" />
+                            </p:column>
+                            
+                            <p:column headerText="Marca" >
+                                <p:outputLabel value="#{item.produto.marca}" />
+                            </p:column>							
+                            
+                            <p:column headerText="Unidade medida" >
+                                <p:outputLabel value="#{item.produto.unidadeMedida}" />
+                            </p:column>
+                            
+                            <p:column headerText="Quantidade" >
+                                <p:outputLabel value="#{item.quantidade}" />
+                            </p:column>
+                            
+                            <p:column headerText="Preço" >
+                                <h:outputText value="#{item.preco}" >
+                                    <f:convertNumber type="currency" locale="pt_BR" pattern="#,##0.00" />
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Ações" style="text-align:center;width:10%;">
+                                <p:commandButton title="Remover" action="#{pedidoProdutoBean.remItem()}" ajax="false" icon="ui-icon-trash" update="valorTotal">
+                                    <f:setPropertyActionListener target="#{pedidoProdutoBean.itemPedidoTemp}" value="#{item}"/>
+                                </p:commandButton>
+                            </p:column>							
+                        </p:dataTable>
+                    </center>
+                    <br />
+                </div>
+                <br />	 
+                <h:panelGrid columns="6" columnClasses="coluna15,coluna20,coluna15,coluna20,coluna15,coluna15" width="100%">
+                    <p:outputLabel value="Forma pagamento:" />
+                    <p:inputText id="formaPagamento" maxlength="100" value="#{pedidoProdutoBean.pedidoProduto.pagamento.formaPagamento}"/>
+                    
+                    <p:outputLabel value="Data Pagamento:" />
+                    <p:calendar id="dataPagamento" value="#{pedidoProdutoBean.pedidoProduto.pagamento.data}"
+                                readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
+                    
+                    <p:outputLabel value="Valor Total:" />
+                    <p:inputNumber id="valorTotal" value="#{pedidoProdutoBean.pedidoProduto.pagamento.valor}"
+			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11" />
+                </h:panelGrid>	
+            </p:fieldset>
+            <br/>
+            <center>
+                <p:commandButton id="cb-save" value="Salvar" action="#{pedidoProdutoBean.save()}" title="Salvar" ajax="false" 
+                                 update=":msgs"/>
+                <h:outputText value="&#160;&#160;&#160;"/>
+                <p:commandButton id="cb-novo" value="Novo" action="#{pedidoProdutoBean.novo()}" title="Novo" ajax="false" />
+            </center>
+            <br/>
+            
+            <p:dataTable 
+                id="dt-pedidoProduto"
+                value="#{pedidoProdutoBean.listPedidoProduto}"
+                var="pedidoProduto"
+                paginator="true" 
+                lazy="true" 
+                rows="10" 
+                emptyMessage="Não há dados cadastrados" 
+                rowsPerPageTemplate="5,10,25,50,100,200"
+                paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                currentPageReportTemplate="{currentPage} / {totalPages}"
+                rowIndexVar="rowIx">
+                
+                <p:column style="width:4%">
+                    <p:rowToggler />
+                </p:column>
+                
+                <p:column headerText="Número pedido">
+                    <h:outputText value="#{pedidoProduto.numero}" />
+                </p:column>
+                <p:column headerText="Situação">
+                    <h:outputText value="#{pedidoProduto.situacao}" />
+                </p:column>
+                <p:column headerText="Data pedido">
+                    <h:outputText value="#{pedidoProduto.data}" >
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy" locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Valor total">
+                    <h:outputText value="#{pedidoProduto.pagamento.valor}" >
+                        <f:convertNumber type="currency" locale="pt_BR" pattern="#,##0.00" />
+                    </h:outputText>
+                </p:column>
+                
+                <p:rowExpansion>
+                    <p:dataList value="#{pedidoProduto.listItemPedido}" var="item" type="ordered">
+                        #{item.detalhes}
+                    </p:dataList>
+                </p:rowExpansion>
+                <p:column headerText="Ações" style="text-align: center;" width="150">
+                    <p:commandButton update=":form-pedidoProduto" action="#{pedidoProdutoBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                        <f:setPropertyActionListener target="#{pedidoProdutoBean.pedidoProduto}" value="#{pedidoProduto}"/>
+                    </p:commandButton>
+                    <h:outputText value="&#160;&#160;&#160;" />
+                    <p:commandButton id="cl-excluir" ajax="false" action="#{pedidoProdutoBean.delete()}" title="Excluir" icon="ui-icon ui-icon-trash">
+                        <f:setPropertyActionListener target="#{pedidoProdutoBean.pedidoProduto}" value="#{pedidoProduto}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+        </h:form>
+    </ui:define>
+</ui:composition>
+
