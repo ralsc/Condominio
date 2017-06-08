@@ -7,6 +7,7 @@ package dao;
 
 import config.HibernateUtil;
 import dto.EntradaSaidaDTO;
+import entidades.TipoTaxaMulta;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -67,6 +68,35 @@ public class RelatoriosDAO {
             dto.setMovimento((String) e[3]);
             dto.setValor((Float) e[4]);
             list.add(dto);
+	}
+        
+        session.flush();
+        session.close();
+        return list;
+    }
+    
+    public static List<TipoTaxaMulta> listChamadaCapitalorMulta(String tipo) throws Exception{
+        SessionFactory sf = HibernateUtil.getSessionFactory();
+        Session session = sf.openSession();
+	StringBuilder sql = new StringBuilder();
+            sql.append(" SELECT * FROM TIPOTAXAMULTA ");
+        if(tipo.equalsIgnoreCase("Multa")){
+            sql.append(" WHERE TIPO = 'Multa' ");
+        } else {
+            sql.append(" WHERE DESCRICAO LIKE 'chamada de capital%' ");
+        }
+			
+	Iterator it = session.createSQLQuery(sql.toString()).list().iterator();
+		
+	List<TipoTaxaMulta> list = new ArrayList<TipoTaxaMulta>();
+	while (it.hasNext()) {
+            Object[] e = (Object[]) it.next();
+            TipoTaxaMulta ttm = new TipoTaxaMulta();
+            ttm.setId((Integer) e[0]);
+            ttm.setDescricao((String) e[1]);
+            ttm.setTipo((String) e[2]);
+            ttm.setValor((Float) e[3]);
+            list.add(ttm);
 	}
         
         session.flush();

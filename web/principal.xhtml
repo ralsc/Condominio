@@ -18,15 +18,20 @@
             <h:form id="form-principal" prependId="false">
                 <p:layout fullPage="false">
                     
-                    <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
-                        Logo
+                    <p:layoutUnit position="north" maxSize="100" size="100" resizable="true" closable="true" collapsible="true">
+                        <div id="logo" width="70%" style="float: left;">
+                            <a href="#"><img width="50%" src="../img/logo.jpg" title="Townhouse"></img></a>
+			</div>
+                        <div id="projeto" align="left" width="30%" style="float: center;">
+                            <h1>TownHouse LTDA</h1>
+			</div>
                     </p:layoutUnit>
                     
                     <p:layoutUnit position="south" size="50" closable="true" collapsible="true">
                         Rodapé caso necessário
                     </p:layoutUnit>
                     
-                    <p:layoutUnit position="west" size="250" header="Menu" collapsible="true">
+                    <p:layoutUnit position="west" size="270" header="Menu" collapsible="true">
                         <p:panelMenu>
                             <p:submenu label="Cadastros" rendered="#{loginBean.usuarioLogado.sindico}">
                                 <p:menuitem value="Usuário" outcome="/pages/usuario.xhtml" />
@@ -46,6 +51,7 @@
                                 <p:menuitem value="Moradores Inadimplentes" outcome="/pages/moradorInadimplente.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
                                 <p:menuitem value="Visualizar Boleto" outcome="/pages/visualizarBoleto.xhtml" rendered="#{!loginBean.usuarioLogado.sindico}"/>
                                 <p:menuitem value="Relatório de Entrada/Saída" outcome="/pages/relEntradaSaida.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Relatório de Chamada de Capital e Multas" outcome="/pages/relTipoTaxa.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
                             </p:submenu>
                         </p:panelMenu>
                     </p:layoutUnit>
