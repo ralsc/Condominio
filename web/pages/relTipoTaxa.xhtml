@@ -10,7 +10,7 @@
     
     <ui:define name="body">
         <h:form id="form-agendamentoServico" prependId="false">
-            <p:fieldset legend="Relatório de Chamada de Capital">
+            <p:fieldset legend="Relatório de Chamada de Capital e Multa">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                     <p:outputLabel value="Tipo:" />
                     <p:selectOneMenu id="tipo" value="#{relTipoTaxaBean.tipo}" >  
@@ -23,8 +23,8 @@
             </p:fieldset>
             <br/>
             <center>
-                <p:commandButton id="cb-save" value="Gerar Relatório" action="#{relTipoTaxaBean.gerarRelatorio()}" 
-                                 title="Gerar Relatório" ajax="false" update=":msgs"/>
+                <p:commandButton id="cb-save" value="Gerar Relatório" onclick="javascript:openNewPage(this.form);" ajax="false"
+                                 action="#{relTipoTaxaBean.gerarRelatorio()}" title="Gerar Relatório" update=":msgs"/>
                 <h:outputText value="&#160;&#160;&#160;"/>
             </center>
             

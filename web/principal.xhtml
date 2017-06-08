@@ -12,6 +12,7 @@
         <h:head>
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
                 <title>Sistema de condomínio</title>
+                <script src="../design/utils.js"></script>
         </h:head>
         
         <h:body>
@@ -36,7 +37,7 @@
                             <p:submenu label="Cadastros" rendered="#{loginBean.usuarioLogado.sindico}">
                                 <p:menuitem value="Usuário" outcome="/pages/usuario.xhtml" />
                                 <p:menuitem value="Unidade" outcome="/pages/unidade.xhtml" />
-                                <p:menuitem value="Taxa Multa" outcome="/pages/taxaMulta.xhtml" />
+                                <p:menuitem value="Taxas/Multas/Gás" outcome="/pages/taxaMulta.xhtml" />
                                 <p:menuitem value="Morador" outcome="/pages/morador.xhtml" />
                                 <p:menuitem value="Fornecedor" outcome="/pages/fornecedor.xhtml" />
                                 <p:menuitem value="Produto" outcome="/pages/produto.xhtml" />
@@ -48,10 +49,16 @@
                                 <p:menuitem value="Gerar Boletos" outcome="/pages/gerarBoleto.xhtml" />
                             </p:submenu>  
                             <p:submenu label="Visualizações" >
-                                <p:menuitem value="Moradores Inadimplentes" outcome="/pages/moradorInadimplente.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
-                                <p:menuitem value="Visualizar Boleto" outcome="/pages/visualizarBoleto.xhtml" rendered="#{!loginBean.usuarioLogado.sindico}"/>
-                                <p:menuitem value="Relatório de Entrada/Saída" outcome="/pages/relEntradaSaida.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
-                                <p:menuitem value="Relatório de Chamada de Capital e Multas" outcome="/pages/relTipoTaxa.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Moradores Inadimplentes" outcome="/pages/moradorInadimplente.xhtml" 
+                                            rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Visualizar Boleto" outcome="/pages/visualizarBoleto.xhtml" 
+                                            rendered="#{!loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Relatório de Entrada/Saída" outcome="/pages/relEntradaSaida.xhtml" 
+                                            rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Relatório de Chamada de Capital e Multas" outcome="/pages/relTipoTaxa.xhtml" 
+                                            rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Relatório de Recibos" outcome="/pages/relRecibo.xhtml" 
+                                            rendered="#{loginBean.usuarioLogado.sindico}"/>
                             </p:submenu>
                         </p:panelMenu>
                     </p:layoutUnit>

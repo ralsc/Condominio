@@ -10,30 +10,21 @@
     
     <ui:define name="body">
         <h:form id="form-agendamentoServico" prependId="false">
-            <p:fieldset legend="Relatório de Entrada/Saída">
+            <p:fieldset legend="Relatório de Recibos">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
-                                   
-                    <p:outputLabel value="Movimento: " />
-                    <p:selectOneMenu id="tipo" value="#{relEntradaSaidaBean.movimento}" >  
-                        <f:selectItem itemLabel="Todos" /> 
-                        <f:selectItem itemLabel="Entrada" itemValue="E" /> 
-                        <f:selectItem itemLabel="Saída" itemValue="S" /> 
+                    <p:outputLabel value="Tipo:" />
+                    <p:selectOneMenu id="tipo" value="#{relReciboBean.tipo}" >  
+                        <f:selectItem itemLabel="Chamada de Capital" itemValue="Chamada de Capital" /> 
+                        <f:selectItem itemLabel="Multa" itemValue="Multa" /> 
                     </p:selectOneMenu> 
                     <p:outputLabel />
                     <p:outputLabel />
-                    
-                    <p:outputLabel value="Data Inicial:" />
-                    <p:calendar id="dataIni" value="#{relEntradaSaidaBean.dataInicial}" readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
-                    
-                    <p:outputLabel value="Data Final:" />
-                    <p:calendar id="dataFim" value="#{relEntradaSaidaBean.dataFinal}" readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
-
                 </h:panelGrid>	
             </p:fieldset>
             <br/>
             <center>
                 <p:commandButton id="cb-save" value="Gerar Relatório" onclick="javascript:openNewPage(this.form);" ajax="false"
-                                 action="#{relEntradaSaidaBean.gerarRelatorio()}" title="Gerar Relatório" update=":msgs"/>
+                                 action="#{relReciboBean.gerarRelatorio()}" title="Gerar Relatório" update=":msgs" />
                 <h:outputText value="&#160;&#160;&#160;"/>
             </center>
             
