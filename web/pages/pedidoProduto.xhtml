@@ -10,18 +10,24 @@
     
     <ui:define name="body">
         <h:form id="form-pedidoProduto" prependId="false">
+            <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+            </div>
             <p:fieldset legend="Realizar pedido">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                     
-                    <p:outputLabel value="Número pedido:" />
+                    <p:outputLabel value="Número pedido: *" />
                     <p:inputText id="numero" maxlength="100" value="#{pedidoProdutoBean.pedidoProduto.numero}"/>
                     
-                    <p:outputLabel value="Data Pedido:" />
+                    <p:outputLabel value="Data Pedido: *" />
                     <p:calendar id="dataPedido" value="#{pedidoProdutoBean.pedidoProduto.data}"
                                 readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
                     
-                    <p:outputLabel value="Situação: " />
-                    <p:inputText id="situacao" value="#{pedidoProdutoBean.pedidoProduto.situacao}" /> 
+                    <p:outputLabel value="Situação: *" />
+                    <p:selectOneMenu id="tipo" value="#{pedidoProdutoBean.pedidoProduto.situacao}" >  
+                        <f:selectItem itemLabel="Pendente" itemValue="Pendente" /> 
+                        <f:selectItem itemLabel="Finalizado" itemValue="Finalizado" />
+                    </p:selectOneMenu> 
                     
                     <p:outputLabel value="Valor desconto:" />
                     <p:inputNumber id="desconto" value="#{pedidoProdutoBean.pedidoProduto.desconto}"
@@ -31,7 +37,7 @@
                 </h:panelGrid> 
                 
                 <br />
-                <div style="border-width: 1px; border-style: solid; border-color: #a6c9e2;" >
+                <div style="border-width: 1px; border-style: solid; border-color: #D9D6C4;" >
                     <h:panelGrid id="item" cellspacing="3" columns="6"  columnClasses="coluna5,coluna10,coluna40,coluna10,coluna25,coluna10" width="100%">
                         <p:outputLabel />		
                         <p:outputLabel value="  Adicionar produto:" />

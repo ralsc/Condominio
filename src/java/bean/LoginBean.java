@@ -48,9 +48,9 @@ public class LoginBean implements Serializable{
             if(getUsuarioLogado() != null ){
                 try {
                     if(getUsuarioLogado().isSindico()){
-                        FacesContext.getCurrentInstance().getExternalContext().redirect("usuario.jsf?faces-redirect=true");
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("pages/usuario.jsf?faces-redirect=true");
                     } else {
-                        FacesContext.getCurrentInstance().getExternalContext().redirect("visualizarBoleto.jsf?faces-redirect=true");
+                        FacesContext.getCurrentInstance().getExternalContext().redirect("pages/visualizarBoleto.jsf?faces-redirect=true");
                     }
                     
                 } catch (IOException ex) {
@@ -63,6 +63,22 @@ public class LoginBean implements Serializable{
         } catch (Exception ex) {
             Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             FacesMessagesUtil.addErrorMessage("msgLogin","msgLogin","Falha ao realizar login:\n"+ex.getMessage());
+        }
+    }
+    
+    public void valida(){
+        if(getUsuarioLogado() == null){
+            logout();
+        }
+    }
+    
+    public void logout(){
+        try {
+            setUsuarioLogado(null);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("../login.jsf?faces-redirect=true");
+        } catch (Exception ex) {
+            Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            FacesMessagesUtil.addErrorMessage("msgs","msgs","Falha na operação:\n"+ex.getMessage());
         }
     }
 

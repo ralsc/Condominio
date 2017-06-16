@@ -49,6 +49,16 @@ public class PedidoProdutoBean implements Serializable{
     }
     
     public void addItem() {
+        // valida campos obrigatórios
+        if(this.getIdProduto() == null || this.getIdProduto().equals(0)){
+            FacesMessagesUtil.addErrorMessage("msgs","msgs","Produto: campo obrigatório!");
+            return;
+        }
+        if(this.getItemPedidoTemp().getQuantidade() == null || this.getItemPedidoTemp().getQuantidade().equals(0)){
+            FacesMessagesUtil.addErrorMessage("msgs","msgs","Quantidade: campo obrigatório!");
+            return;
+        }
+        
         for(Produto produto: this.getListProdutos()){
             if(produto.getId().equals(this.getIdProduto())){
                 this.getItemPedidoTemp().setProduto(produto);
@@ -79,6 +89,16 @@ public class PedidoProdutoBean implements Serializable{
     
     public void save(){
         try {
+            // valida campos obrigatórios
+            if(this.getPedidoProduto().getNumero() == null){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Número: campo obrigatório!");
+                return;
+            }
+            if(this.getPedidoProduto().getData() == null){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Data: campo obrigatório!");
+                return;
+            }
+            
             PedidoProdutoDAO.salvar(this.getPedidoProduto());
             this.setListPedidoProduto(null);
             this.preload();

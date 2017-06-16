@@ -10,16 +10,19 @@
     
     <ui:define name="body">
         <h:form id="form-fornecedor" prependId="false">
+            <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+            </div>
             <p:fieldset legend="Cadastro de fornecedores">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                                         
-                    <p:outputLabel value="Nome:" />
+                    <p:outputLabel value="Nome: *" />
                     <p:inputText id="nome" maxlength="100" value="#{fornecedorBean.fornecedor.nome}"/>
                     
                     <p:outputLabel value="Endereço" />
                     <p:inputText id="endereco" value="#{fornecedorBean.fornecedor.endereco}" />
                     
-                    <p:outputLabel value="CPF/CNPJ:" />
+                    <p:outputLabel value="CPF/CNPJ: *" />
                     <p:inputText id="cpfCnpf" maxlength="100" value="#{fornecedorBean.fornecedor.cpfCnpj}"/>
                     
                     <p:outputLabel value="Observação:" />

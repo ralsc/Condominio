@@ -12,60 +12,63 @@
                                 .coluna10 {
                                     border: 0 none !important;
                                     font-size: 12px !important;
-                                    width: 10%;
+                                    width: 10% !important;
                                         line-height: 13px;
                                 }
                                 .coluna15 {
                                     border: 0 none !important;
                                     font-size: 12px !important;
-                                    width: 15%;
+                                    width: 15% !important;
                                         line-height: 13px;
                                 }
                                 .coluna20 {
                                     border: 0 none !important;
                                     font-size: 12px !important;
-                                    width: 20%;
+                                    width: 20% !important;
                                         line-height: 13px;
                                 }
                                 .coluna25 {
                                     border: 0 none !important;
                                     font-size: 12px !important;
-                                    width: 25%;
+                                    width: 25% !important;
                                         line-height: 13px;
                                 }                                
                                 .coluna30 {
                                     border: 0 none !important;
                                     font-size: 12px !important;
-                                    width: 30%;
+                                    width: 30% !important;
                                         line-height: 13px;
                                 }                                
                                 .coluna35 {
                                     border: 0 none !important;
                                     font-size: 12px !important;
-                                    width: 35%;
+                                    width: 35% !important;
                                         line-height: 13px;
                                 }
     </style>
     <ui:define name="body">
         <h:form id="form-usuario" prependId="false">
+            <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+            </div>
             <p:fieldset legend="Cadastro de usuários">
-                <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
+                <h:panelGrid columns="4" width="100%">
                     
-                    <p:outputLabel value="Login:" />
-                    <p:inputText id="login" maxlength="100" value="#{usuarioBean.usuario.login}"/>
+                    <p:outputLabel value="Login: *" for="login"/>
+                    <p:inputText id="login" maxlength="100" value="#{usuarioBean.usuario.login}" />
                     
-                    <p:outputLabel value="Senha:" for="senha"/>
+                    <p:outputLabel value="Senha: *" for="senha"/>
                     <p:password id="senha" value="#{usuarioBean.usuario.senha}" maxlength="40" redisplay="true"/>
                     
                     <p:outputLabel value="Email:" for="email"/>
                     <p:inputText id="email" maxlength="100" value="#{usuarioBean.usuario.email}"/>
                     
-                    <p:outputLabel value="CNPJ:" for="cnpj"/>
+                    <p:outputLabel value="CPF/CNPJ:" for="cnpj"/>
                     <p:inputText id="cnpj" maxlength="100" value="#{usuarioBean.usuario.cnpj}"/>
                 </h:panelGrid>	
-                <h:panelGrid columns="6" columnClasses="coluna10,coluna30,coluna15,coluna15,coluna15,coluna15" width="100%">
+                <h:panelGrid columns="6" width="100%">
                     <p:outputLabel value="Morador: " for="morador"/>
-                    <p:selectOneMenu id="morador" value="#{usuarioBean.idMorador}" >  
+                    <p:selectOneMenu id="morador" value="#{usuarioBean.idMorador}">  
                         <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
                         <f:selectItems value="#{usuarioBean.listMoradores}" var="morador" itemValue="#{morador.id}" itemLabel="#{morador.nome}"  />
                     </p:selectOneMenu> 
@@ -112,12 +115,13 @@
                 <p:column headerText="E-mail">
                     <h:outputText value="#{usuario.email}" />
                 </p:column>
-                <p:column headerText="CNPJ">
+                <p:column headerText="CPF/CNPJ">
                     <h:outputText value="#{usuario.cnpj}" />
                 </p:column>
                 
                 <p:column headerText="Ações" style="text-align: center;" width="150">
-                    <p:commandButton update=":form-usuario" action="#{usuarioBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                    <p:commandButton update=":form-usuario" action="#{usuarioBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" 
+                                     ajax="false">
                         <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuario}"/>
                     </p:commandButton>
                     <h:outputText value="&#160;&#160;&#160;" />

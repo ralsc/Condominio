@@ -10,17 +10,20 @@
     
     <ui:define name="body">
         <h:form id="form-servico" prependId="false">
+            <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+            </div>
             <p:fieldset legend="Cadastro de serviços">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                                         
-                    <p:outputLabel value="Descrição:" />
+                    <p:outputLabel value="Descrição: *" />
                     <p:inputText id="descricao" maxlength="100" value="#{servicoBean.servico.descricao}"/>
                     
-                    <p:outputLabel value="Preço:" />
+                    <p:outputLabel value="Preço: *" />
                     <p:inputNumber id="preco" value="#{servicoBean.servico.preco}"
 			decimalSeparator="," thousandSeparator="." />
                     
-                    <p:outputLabel value="Fornecedor " />
+                    <p:outputLabel value="Fornecedor: *" />
                     <p:selectOneMenu id="fornecedor" value="#{servicoBean.idFornecedor}" >  
                         <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
                         <f:selectItems value="#{servicoBean.listFornecedores}" var="fornecedor" itemValue="#{fornecedor.id}" itemLabel="#{fornecedor.nome}"  />

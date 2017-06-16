@@ -45,6 +45,9 @@ public class Condominio implements Serializable{
     @Column
     private Float valor;
     
+    @Column
+    private String observacao;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_morador")
     private Morador morador;
@@ -61,12 +64,13 @@ public class Condominio implements Serializable{
     
     public Condominio(){}
 
-    public Condominio(Integer id, Date data, Float valor, Morador morador, Pagamento pagamento) {
+    public Condominio(Integer id, Date data, Float valor, String observacao, Morador morador, Pagamento pagamento) {
         this.id = id;
         this.data = data;
         this.valor = valor;
         this.morador = morador;
         this.pagamento = pagamento;
+        this.observacao = observacao;
     }
 
     public Integer getId() {
@@ -115,6 +119,14 @@ public class Condominio implements Serializable{
 
     public void setListTaxaMulta(List<TaxaMulta> listTaxaMulta) {
         this.listTaxaMulta = listTaxaMulta;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
     
 }

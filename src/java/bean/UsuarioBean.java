@@ -41,14 +41,20 @@ public class UsuarioBean implements Serializable{
     
     public void save(){
         try {
+            // valida campos obrigatórios
+            if(this.getUsuario().getLogin() == null || this.getUsuario().getLogin().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Login: campo obrigatório!");
+                return;
+            }
+            if(this.getUsuario().getSenha() == null || this.getUsuario().getSenha().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Senha: campo obrigatório!");
+                return;
+            }
+            
             if(this.getIdMorador() != null && !this.getIdMorador().equals(0)){
                this.getUsuario().setMorador(new Morador(this.getIdMorador())); 
             }
             UsuarioDAO.salvar(this.getUsuario());
-
-            //        if(!this.isEdicao()){
-            //            listUsuarios.add(this.getUsuario());
-            //        }
             this.setListUsuarios(null);
             this.setUsuario(new Usuario());
             this.setIdMorador(null);

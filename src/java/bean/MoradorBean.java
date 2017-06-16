@@ -35,9 +35,21 @@ public class MoradorBean implements Serializable{
     
     public void save(){
         try {
-            if(this.getIdUnidade() != null && !this.getIdUnidade().equals(0)){
-               this.getMorador().setUnidade(new Unidade(this.getIdUnidade())); 
+            // valida campos obrigatórios
+            if(this.getMorador().getNome() == null || this.getMorador().getNome().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Nome: campo obrigatório!");
+                return;
             }
+            if(this.getMorador().getCpf() == null || this.getMorador().getCpf().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","CPF: campo obrigatório!");
+                return;
+            }
+            if(this.getIdUnidade() == null || this.getIdUnidade().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Unidade: campo obrigatório!");
+                return;
+            }
+            
+            this.getMorador().setUnidade(new Unidade(this.getIdUnidade())); 
             MoradorDAO.salvar(this.getMorador());
 
             this.setListMoradores(null);

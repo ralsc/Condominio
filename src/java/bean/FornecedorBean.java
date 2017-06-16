@@ -31,6 +31,16 @@ public class FornecedorBean implements Serializable{
     
     public void save(){
         try {
+            // valida campos obrigatórios
+            if(this.getFornecedor().getNome() == null || this.getFornecedor().getNome().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Nome: campo obrigatório!");
+                return;
+            }
+            if(this.getFornecedor().getCpfCnpj() == null || this.getFornecedor().getCpfCnpj().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","CPF/CNPJ: campo obrigatório!");
+                return;
+            }
+            
             FornecedorDAO.salvar(this.getFornecedor());
             this.setListFornecedores(null);
             this.setFornecedor(new Fornecedor());

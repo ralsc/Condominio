@@ -10,47 +10,50 @@
     
     <ui:define name="body">
         <h:form id="form-gerarBoleto" prependId="false">
-            <p:fieldset legend="Gerar Boleto(condomínio)">
+            <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+            </div>
+            <p:fieldset id="geraBoleto" legend="Gerar Boleto(condomínio)">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                     
-                    <p:outputLabel value="Morador: " for="morador"/>
-                    <p:selectOneMenu id="morador" value="#{gerarBoletoBean.idMorador}" >  
-                        <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
+                    <p:outputLabel value="Morador: *" for="morador"/>
+                    <p:selectOneMenu id="morador" value="#{gerarBoletoBean.idMorador}">  
+                        <f:selectItem itemLabel="[Selecione]" itemValue="" />  
                         <f:selectItems value="#{gerarBoletoBean.listMoradores}" var="morador" itemValue="#{morador.id}" itemLabel="#{morador.nome}"  />
                         <p:ajax event="change" update="form-gerarBoleto" />
                     </p:selectOneMenu> 
                     <p:outputLabel />
                     <p:outputLabel />
                     
-                    <p:outputLabel value="Data vencimento:" />
-                    <p:calendar id="dataVencimento" value="#{gerarBoletoBean.condominio.data}"
+                    <p:outputLabel value="Data vencimento: *" for="dataVencimento"/>
+                    <p:calendar id="dataVencimento" value="#{gerarBoletoBean.condominio.data}" 
                                 readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
                     
-                    <p:outputLabel value="Valor condomínio:" />
-                    <p:inputNumber id="valorCondominio" value="#{gerarBoletoBean.condominio.valor}"
+                    <p:outputLabel value="Valor condomínio: *" for="valorCondominio"/>
+                    <p:inputNumber id="valorCondominio" value="#{gerarBoletoBean.condominio.valor}" 
 			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11">
                         <p:ajax event="change" update="valorTotal" listener="#{gerarBoletoBean.updateValorTotal}"/>
                     </p:inputNumber>
                 </h:panelGrid> 
                 <br />
-                <div style="border-width: 1px; border-style: solid; border-color: #a6c9e2;" >
+                <div style="border-width: 1px; border-style: solid; border-color: #D9D6C4;" >
                     <h:panelGrid id="item" cellspacing="3" columns="6"  columnClasses="coluna5,coluna10,coluna40,coluna10,coluna25,coluna10" width="100%">
                         <p:outputLabel />		
-                        <p:outputLabel value="  Adicionar taxa/multa:" />
-                        <p:selectOneMenu id="tipoTaxaMulta" style="width:80%" value="#{gerarBoletoBean.idTipoTaxaMulta}">  
-                            <f:selectItem itemLabel=" [Selecione] " itemValue="0" /> 
+                        <p:outputLabel value="  Adicionar taxa/multa:" for="tipoTaxaMulta"/>
+                        <p:selectOneMenu id="tipoTaxaMulta" style="width:80%" value="#{gerarBoletoBean.idTipoTaxaMulta}" >  
+                            <f:selectItem itemLabel=" [Selecione] " itemValue="" /> 
                             <f:selectItems value="#{gerarBoletoBean.listTipoTaxaMultas}" var="tipoTaxaMulta" 
                                            itemValue="#{tipoTaxaMulta.id}" 
                                            itemLabel="#{tipoTaxaMulta.tipo} - #{tipoTaxaMulta.descricao}"  />
                             <p:ajax event="change" update="valorTaxa" listener="#{gerarBoletoBean.changeTaxaMulta}"/>
                         </p:selectOneMenu>	
                         
-                        <p:outputLabel value="Valor:" />
+                        <p:outputLabel value="Valor:" for="valorTaxa"/>
                         <p:inputNumber id="valorTaxa" value="#{gerarBoletoBean.taxaMultaTemp.valor}"
                             decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11"/>		
                         
                         <p:commandButton id="addItem" action="#{gerarBoletoBean.addItem()}" title="Adiciona taxa/multa" 
-                            style="margin-left: 1%;" ajax="false" icon="ui-icon ui-icon-plusthick" update="valorTotal"/>
+                            style="margin-left: 1%;" ajax="false" icon="ui-icon ui-icon-plusthick" update=":msgs, valorTotal"/>
 			
                     </h:panelGrid>
                     <center>
@@ -82,6 +85,10 @@
                     <br />
                 </div>
                 <br />	 
+                <h:panelGrid columns="2" columnClasses="coluna15,coluna85" width="100%">
+                    <p:outputLabel value="Observações:" />
+                    <p:inputTextarea id="observacao" value="#{gerarBoletoBean.condominio.observacao}" cols="60"/>
+                </h:panelGrid>
                 <h:panelGrid columns="6" columnClasses="coluna15,coluna20,coluna15,coluna20,coluna15,coluna15" width="100%">
                     <p:outputLabel value="Forma pagamento:" />
                     <p:inputText id="formaPagamento" maxlength="100" value="#{gerarBoletoBean.condominio.pagamento.formaPagamento}"/>

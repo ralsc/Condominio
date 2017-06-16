@@ -35,9 +35,21 @@ public class ServicoBean implements Serializable{
     
     public void save(){
         try {
-            if(this.getIdFornecedor() != null && !this.getIdFornecedor().equals(0)){
-               this.getServico().setFornecedor(new Fornecedor(this.getIdFornecedor())); 
+            // valida campos obrigatórios
+            if(this.getServico().getDescricao() == null || this.getServico().getDescricao().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Descrição: campo obrigatório!");
+                return;
             }
+            if(this.getServico().getPreco() == null || this.getServico().getPreco().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Preço: campo obrigatório!");
+                return;
+            }
+            if(this.getIdFornecedor() == null || this.getIdFornecedor().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Fornecedor: campo obrigatório!");
+                return;
+            }
+            
+            this.getServico().setFornecedor(new Fornecedor(this.getIdFornecedor())); 
             ServicoDAO.salvar(this.getServico());
             this.setListServicos(null);
             this.setServico(new Servico());

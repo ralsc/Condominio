@@ -10,21 +10,24 @@
     
     <ui:define name="body">
         <h:form id="form-unidade" prependId="false">
+            <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+            </div>
             <p:fieldset legend="Cadastro de unidades">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                                         
-                    <p:outputLabel value="Numero:" />
+                    <p:outputLabel value="Numero: *" />
                     <p:inputText id="numero" maxlength="100" value="#{unidadeBean.unidade.numero}"/>
                     
-                    <p:outputLabel value="Descrição:" />
+                    <p:outputLabel value="Descrição: *" />
                     <p:inputText id="descricao" value="#{unidadeBean.unidade.descricao}" maxlength="40"/>
                     
-                    <p:outputLabel value="Leitura anterior:" />
+                    <p:outputLabel value="Leitura anterior: *" />
                     <p:inputNumber id="leituraAnterior" value="#{unidadeBean.unidade.leituraGasAnterior}" decimalPlaces="3"
 			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11">
                     </p:inputNumber>
                     
-                    <p:outputLabel value="Leitura atual:" />
+                    <p:outputLabel value="Leitura atual: *" />
                     <p:inputNumber id="leituraAtual" value="#{unidadeBean.unidade.leituraGasAtual}" decimalPlaces="3"
 			decimalSeparator="," thousandSeparator="." style="text-align:right;" size="11">
                     </p:inputNumber>

@@ -11,13 +11,17 @@ import entidades.AgendamentoServico;
 import entidades.Pagamento;
 import entidades.Servico;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import util.FacesMessagesUtil;
+import util.RelatorioUtil;
 
 /**
  *
@@ -30,6 +34,7 @@ public class AgendamentoServicoBean implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private AgendamentoServico agendamentoServico = new AgendamentoServico();
+    private AgendamentoServico agendamentoServicoRel = new AgendamentoServico();
     private List<AgendamentoServico> listAgendamentoServicos;
     private List<Servico> listServicos;
     private boolean edicao;
@@ -55,9 +60,25 @@ public class AgendamentoServicoBean implements Serializable{
     
     public void save(){
         try {
-            if(this.getIdServico() != null && !this.getIdServico().equals(0)){
-               this.getAgendamentoServico().setServico(new Servico(this.getIdServico())); 
+            // valida campos obrigatórios
+            if(this.getIdServico() == null || this.getIdServico().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Serviço: campo obrigatório!");
+                return;
             }
+            if(this.getAgendamentoServico().getData() == null){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Data: campo obrigatório!");
+                return;
+            }
+            if(this.getAgendamentoServico().getSituacao() == null || this.getAgendamentoServico().getSituacao().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Situação: campo obrigatório!");
+                return;
+            }
+            if(this.getAgendamentoServico().getValor() == null || this.getAgendamentoServico().getValor().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Valor: campo obrigatório!");
+                return;
+            }
+            
+            this.getAgendamentoServico().setServico(new Servico(this.getIdServico()));
             AgendamentoServicoDAO.salvar(this.getAgendamentoServico());
             this.setListAgendamentoServicos(null);
             this.setAgendamentoServico(new AgendamentoServico());
@@ -95,6 +116,21 @@ public class AgendamentoServicoBean implements Serializable{
             FacesMessagesUtil.addInfoMessage("msgs","msgs","Excluido com sucesso!");
         } catch (Exception ex) {
             FacesMessagesUtil.addErrorMessage("msgs","msgs","Erro ao excluir!\n"+ex.getMessage());
+        }
+    }
+    
+    public void gerarRelatorio() throws Exception {
+        try {			
+            List<AgendamentoServico> dataSource = new ArrayList<>();
+            dataSource.add(this.getAgendamentoServicoRel());
+            Map<String, Object> parametros = new HashMap<>();
+
+            String url = "/jasper/MA_Recibo.jasper";
+
+            RelatorioUtil.gerarRelatorio("Recibo.pdf", dataSource, parametros, url);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesMessagesUtil.addErrorMessage("msgs","msgs","Erro ao salvar!\n"+e.getMessage());
         }
     }
     
@@ -150,6 +186,14 @@ public class AgendamentoServicoBean implements Serializable{
 
     public void setIdServico(Integer idServico) {
         this.idServico = idServico;
+    }
+
+    public AgendamentoServico getAgendamentoServicoRel() {
+        return agendamentoServicoRel;
+    }
+
+    public void setAgendamentoServicoRel(AgendamentoServico agendamentoServicoRel) {
+        this.agendamentoServicoRel = agendamentoServicoRel;
     }
     
 }

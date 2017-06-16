@@ -10,10 +10,13 @@
     
     <ui:define name="body">
         <h:form id="form-taxaMulta" prependId="false">
+            <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+            </div>
             <p:fieldset legend="Cadastro de Taxas/Multas/Gás">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                                         
-                    <p:outputLabel value="Tipo:" />
+                    <p:outputLabel value="Tipo: *" />
                     <p:selectOneMenu id="tipo" value="#{tipoTaxaMultaBean.tipoTaxaMulta.tipo}" >  
                         <f:selectItem itemLabel="Taxa" itemValue="Taxa" /> 
                         <f:selectItem itemLabel="Multa" itemValue="Multa" /> 
@@ -22,10 +25,10 @@
                     <p:outputLabel />
                     <p:outputLabel />
                     
-                    <p:outputLabel value="Descrição:" />
+                    <p:outputLabel value="Descrição: *" />
                     <p:inputText id="descricao" maxlength="100" value="#{tipoTaxaMultaBean.tipoTaxaMulta.descricao}"/>
 
-                    <p:outputLabel value="Valor:" />
+                    <p:outputLabel value="Valor: *" />
                     <p:inputNumber style="text-align:right;" id="valor" value="#{tipoTaxaMultaBean.tipoTaxaMulta.valor}"
 			decimalSeparator="," thousandSeparator="." size="11" />
                     

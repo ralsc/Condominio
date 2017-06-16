@@ -45,6 +45,7 @@ public class GerarBoletoBean implements Serializable{
     @PostConstruct
     public void preload() {
         this.setCondominio(new Condominio());
+        this.getCondominio().setValor(0.0f);
         this.getCondominio().setPagamento(new Pagamento());
         this.getCondominio().setListTaxaMulta(new ArrayList<>());
         this.setIdTipoTaxaMulta(0);
@@ -71,6 +72,16 @@ public class GerarBoletoBean implements Serializable{
     
     public void addItem() {
         System.out.println(this.getIdMorador());
+        // valida se campos estão preenchidos
+        if(this.getIdTipoTaxaMulta() == null || this.getIdTipoTaxaMulta().equals(0)){
+            FacesMessagesUtil.addErrorMessage("msgs","msgs","Taxa/Multa: campo obrigatório");
+            return;
+        }
+        if(this.getTaxaMultaTemp().getValor() == null || this.getTaxaMultaTemp().getValor().equals(0)){
+            FacesMessagesUtil.addErrorMessage("msgs","msgs","Valor taxa: campo obrigatório");
+            return;
+        }
+        
         for(TipoTaxaMulta tipoTaxaMulta: this.getListTipoTaxaMultas()){
             if(tipoTaxaMulta.getId().equals(this.getIdTipoTaxaMulta())){
                 this.getTaxaMultaTemp().setTipoTaxaMulta(tipoTaxaMulta);
@@ -100,9 +111,21 @@ public class GerarBoletoBean implements Serializable{
     
     public void save(){
         try {
-            if(this.getIdMorador() != null && !this.getIdMorador().equals(0)){
-               this.getCondominio().setMorador(new Morador(this.getIdMorador())); 
+            // valida campos obrigatórios
+            if(this.getIdMorador() == null || this.getIdMorador().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Morador: campo obrigatório!");
+                return;
             }
+            if(this.getCondominio().getData() == null){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Data vencimento: campo obrigatório!");
+                return;
+            }
+            if(this.getCondominio().getValor() == null){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Valor condomínio: campo obrigatório!");
+                return;
+            }
+            
+            this.getCondominio().setMorador(new Morador(this.getIdMorador())); 
             CondominioDAO.salvar(this.getCondominio());
             this.setListCondominio(null);
             this.preload();

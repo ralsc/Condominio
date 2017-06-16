@@ -36,6 +36,24 @@ public class UnidadeBean implements Serializable{
     
     public void save(){
         try {
+            // valida campos obrigatórios
+            if(this.getUnidade().getNumero() == null || this.getUnidade().getNumero().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Número: campo obrigatório!");
+                return;
+            }
+            if(this.getUnidade().getDescricao() == null || this.getUnidade().getDescricao().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Descrição: campo obrigatório!");
+                return;
+            }
+            if(this.getUnidade().getLeituraGasAnterior() == null || this.getUnidade().getLeituraGasAnterior().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Leitura anterior: campo obrigatório!");
+                return;
+            }
+            if(this.getUnidade().getLeituraGasAtual() == null || this.getUnidade().getLeituraGasAtual().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Leitura atual: campo obrigatório!");
+                return;
+            }
+            
             UnidadeDAO.salvar(this.getUnidade());
             this.setListUnidades(null);
             this.setUnidade(new Unidade());

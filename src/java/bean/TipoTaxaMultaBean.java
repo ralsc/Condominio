@@ -31,6 +31,20 @@ public class TipoTaxaMultaBean implements Serializable{
     
     public void save(){
         try {
+            // valida campos obrigatórios
+            if(this.getTipoTaxaMulta().getTipo() == null || this.getTipoTaxaMulta().getTipo().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Tipo: campo obrigatório!");
+                return;
+            }
+            if(this.getTipoTaxaMulta().getDescricao() == null || this.getTipoTaxaMulta().getDescricao().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Descrição: campo obrigatório!");
+                return;
+            }
+            if(this.getTipoTaxaMulta().getValor() == null || this.getTipoTaxaMulta().getValor().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Valor: campo obrigatório!");
+                return;
+            }
+            
             TipoTaxaMultaDAO.salvar(this.getTipoTaxaMulta());
             this.setListTipoTaxaMultas(null);
             this.setTipoTaxaMulta(new TipoTaxaMulta());

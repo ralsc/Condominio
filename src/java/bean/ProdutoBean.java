@@ -35,9 +35,21 @@ public class ProdutoBean implements Serializable{
     
     public void save(){
         try {
-            if(this.getIdFornecedor() != null && !this.getIdFornecedor().equals(0)){
-               this.getProduto().setFornecedor(new Fornecedor(this.getIdFornecedor())); 
+            // valida campos obrigatórios
+            if(this.getProduto().getDescricao() == null || this.getProduto().getDescricao().equals("")){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Descrição: campo obrigatório!");
+                return;
             }
+            if(this.getProduto().getPrecoCompra() == null || this.getProduto().getPrecoCompra().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Preço compra: campo obrigatório!");
+                return;
+            }
+            if(this.getIdFornecedor() == null || this.getIdFornecedor().equals(0)){
+                FacesMessagesUtil.addErrorMessage("msgs","msgs","Fornecedor: campo obrigatório!");
+                return;
+            }
+            
+            this.getProduto().setFornecedor(new Fornecedor(this.getIdFornecedor())); 
             ProdutoDAO.salvar(this.getProduto());
             this.setListProdutos(null);
             this.setProduto(new Produto());

@@ -10,10 +10,13 @@
     
     <ui:define name="body">
         <h:form id="form-morador" prependId="false">
+            <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+            </div>
             <p:fieldset legend="Cadastro de morador">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                                         
-                    <p:outputLabel value="Nome" />
+                    <p:outputLabel value="Nome *" />
                     <p:inputText id="nome" maxlength="100" value="#{moradorBean.morador.nome}"/>
                     
                     <p:outputLabel value="RG:" />
@@ -22,10 +25,10 @@
                     <p:outputLabel value="Endereço:" />
                     <p:inputText id="endereco" maxlength="100" value="#{moradorBean.morador.endereco}"/>
                     
-                    <p:outputLabel value="CPF:" />
+                    <p:outputLabel value="CPF: *" />
                     <p:inputText id="cpf" maxlength="14" value="#{moradorBean.morador.cpf}"/>
                     
-                    <p:outputLabel value="Unidade: " />
+                    <p:outputLabel value="Unidade: *" />
                     <p:selectOneMenu id="unidade" value="#{moradorBean.idUnidade}" >  
                         <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
                         <f:selectItems value="#{moradorBean.listUnidades}" var="unidade" itemValue="#{unidade.id}" 

@@ -10,23 +10,29 @@
     
     <ui:define name="body">
         <h:form id="form-agendamentoServico" prependId="false">
+            <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+            </div>
             <p:fieldset legend="Agendar serviço">
                 <h:panelGrid columns="4" columnClasses="coluna15,coluna35,coluna20,coluna30" width="100%">
                                          
-                    <p:outputLabel value="Serviço: " />
+                    <p:outputLabel value="Serviço: *" />
                     <p:selectOneMenu id="servico" value="#{agendamentoServicoBean.idServico}" >  
                         <f:selectItem itemLabel="[Selecione]" itemValue="0" />  
                         <f:selectItems value="#{agendamentoServicoBean.listServicos}" var="servico" itemValue="#{servico.id}" itemLabel="#{servico.descricao}"  />
                         <p:ajax event="change" update="valor, valorTotal" listener="#{agendamentoServicoBean.changeServico}"/>
                     </p:selectOneMenu> 
                     
-                    <p:outputLabel value="Data:" />
+                    <p:outputLabel value="Data: *" />
                     <p:calendar id="data" value="#{agendamentoServicoBean.agendamentoServico.data}" readonlyInput="true" navigator="true" size="10" locale="pt_BR"/>
                     
-                    <p:outputLabel value="Situação:" />
-                    <p:inputText id="descricao" maxlength="100" value="#{agendamentoServicoBean.agendamentoServico.situacao}"/>
+                    <p:outputLabel value="Situação: *" />
+                    <p:selectOneMenu id="tipo" value="#{agendamentoServicoBean.agendamentoServico.situacao}" >  
+                        <f:selectItem itemLabel="Pendente" itemValue="Pendente" /> 
+                        <f:selectItem itemLabel="Finalizado" itemValue="Finalizado" />
+                    </p:selectOneMenu> 
                     
-                    <p:outputLabel value="Valor:" />
+                    <p:outputLabel value="Valor: *" />
                     <p:inputNumber  id="valor" value="#{agendamentoServicoBean.agendamentoServico.valor}"
 			decimalSeparator="," thousandSeparator="." size="11" >
                         <p:ajax event="change" update="valorTotal" listener="#{agendamentoServicoBean.changeValor}"/>
@@ -49,8 +55,8 @@
             </p:fieldset>
             <br/>
             <center>
-                <p:commandButton id="cb-save" value="Salvar" action="#{agendamentoServicoBean.save()}" title="Salvar" ajax="false" 
-                                 update=":msgs"/>
+                <p:commandButton id="cb-save" value="Salvar" action="#{agendamentoServicoBean.save()}" 
+                                 title="Salvar" ajax="false" update=":msgs"/>
                 <h:outputText value="&#160;&#160;&#160;"/>
                 <p:commandButton id="cb-novo" value="Novo" action="#{agendamentoServicoBean.novo()}" title="Novo" ajax="false" />
             </center>
@@ -88,12 +94,19 @@
                 </p:column>
                 
                 <p:column headerText="Ações" style="text-align: center;" width="150">
-                    <p:commandButton update=":form-agendamentoServico" action="#{agendamentoServicoBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                    <p:commandButton update=":form-agendamentoServico" action="#{agendamentoServicoBean.editar()}" title="Editar" 
+                                     icon="ui-icon ui-icon-pencil" ajax="false" style="float: left;">
                         <f:setPropertyActionListener target="#{agendamentoServicoBean.agendamentoServico}" value="#{agendamentoServico}"/>
                     </p:commandButton>
-                    <h:outputText value="&#160;&#160;&#160;" />
-                    <p:commandButton id="cl-excluir" ajax="false" action="#{agendamentoServicoBean.delete()}" title="Excluir" icon="ui-icon ui-icon-trash">
+                    <h:outputText value="&#160;" style="float: left;"/>
+                    <p:commandButton id="cl-excluir" ajax="false" action="#{agendamentoServicoBean.delete()}" title="Excluir" 
+                                     icon="ui-icon ui-icon-trash" style="float: left;">
                         <f:setPropertyActionListener target="#{agendamentoServicoBean.agendamentoServico}" value="#{agendamentoServico}"/>
+                    </p:commandButton>
+                    <h:outputText value="&#160;" style="float: left;"/>
+                    <p:commandButton id="cb-relatorio" title="Gerar Recibo" onclick="javascript:openNewPage(this.form);" ajax="false" rendered="#{agendamentoServico.isPago()}"
+                                 action="#{agendamentoServicoBean.gerarRelatorio()}" update=":msgs" icon="ui-icon ui-icon-document" style="float: left;">
+                        <f:setPropertyActionListener target="#{agendamentoServicoBean.agendamentoServicoRel}" value="#{agendamentoServico}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>

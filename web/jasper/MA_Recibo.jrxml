@@ -3,6 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<field name="_THIS" class="java.lang.Object"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -27,16 +28,21 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement x="25" y="77" width="505" height="20" uuid="d3036982-32db-4464-8137-84be0781e998"/>
 				<textElement textAlignment="Justified" markup="html">
-					<font size="14"/>
+					<font size="14" isBold="false" isUnderline="false" isStrikeThrough="false"/>
+					<paragraph lineSpacing="1_1_2"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Recebi(emos) de <b>Condominio Residencial Guarujá</b>, a quantia"
-+" de <b>RS 75,00</b>, correspondente aos <b>serviços de limpeza</b>"
-+" do dia <b>05/06/2017</b>, e clareza firmo(amos) o presente,"
-+"na cidade de <b>Blumenau/SC</b> no dia <b>07/06/2017</b>."
+				<textFieldExpression><![CDATA["Recebi(emos) de <b>Condominio Residencial TownHouse</b>, a quantia"
++" de <b>"+$F{_THIS}.getValor()+"</b>, correspondente ao <b>serviço de "+
+$F{_THIS}.getServico().getDescricao()+"</b>"
++" do dia <b>"+new SimpleDateFormat("dd/MM/yyyy").format($F{_THIS}.getData())+
+"</b>, e clareza firmo(amos) o presente,"
++"na cidade de <b>Blumenau/SC</b> no dia <b>"+
+new SimpleDateFormat("dd/MM/yyyy").format(new Date())+"</b>."
 
-+"<br><br><br>Assinatura ................................................................."
++"<br><br><br>Assinatura ..........................................................................."
 
-+"<br><b>Sirlene Moura Silva - CPF:466.466.555.53</b>"]]></textFieldExpression>
++"<br><b>"+$F{_THIS}.getServico().getFornecedor().getNome()+
+" - "+$F{_THIS}.getServico().getFornecedor().getCpfCnpj()+"</b>"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

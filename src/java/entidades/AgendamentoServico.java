@@ -44,6 +44,9 @@ public class AgendamentoServico implements Serializable{
     @Column
     private Float valor;
     
+    @Column
+    private Integer numeroRecibo;
+    
     @OneToOne(fetch = FetchType.EAGER)
     @Cascade({ CascadeType.ALL })
     @JoinColumn(name = "fk_pagamento", nullable = false)
@@ -55,13 +58,15 @@ public class AgendamentoServico implements Serializable{
     
     public AgendamentoServico(){}
 
-    public AgendamentoServico(Integer id, Date data, String situacao, Float valor, Pagamento pagamento, Servico servico) {
+    public AgendamentoServico(Integer id, Date data, String situacao, Float valor, Pagamento pagamento, 
+            Servico servico, Integer numeroRecibo) {
         this.id = id;
         this.data = data;
         this.situacao = situacao;
         this.valor = valor;
         this.pagamento = pagamento;
         this.servico = servico;
+        this.numeroRecibo = numeroRecibo;
     }
 
     public Integer getId() {
@@ -111,5 +116,16 @@ public class AgendamentoServico implements Serializable{
     public void setServico(Servico servico) {
         this.servico = servico;
     }
+
+    public Integer getNumeroRecibo() {
+        return numeroRecibo;
+    }
+
+    public void setNumeroRecibo(Integer numeroRecibo) {
+        this.numeroRecibo = numeroRecibo;
+    }
     
+    public boolean isPago(){
+        return this.pagamento != null && this.pagamento.getData() != null;
+    }
 }
