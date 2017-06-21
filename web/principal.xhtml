@@ -32,7 +32,7 @@
                         <div id="projeto" align="right" style="float: right;">
                             <br /><br /><br />
                             <h:panelGrid columns="2" style="align: right;" >
-                                <p:outputLabel value="Usuário logado : " style="font-weight: bold;"/>
+                                <p:outputLabel value="Usuário logado: " style="font-weight: bold;"/>
 				<h:outputText value="#{loginBean.usuarioLogado.login}" />
                             </h:panelGrid>
 			</div>
@@ -68,6 +68,8 @@
                                             rendered="#{loginBean.usuarioLogado.sindico}"/>
                                 <p:menuitem value="Relatório de Chamada de Capital e Multas" outcome="/pages/relTipoTaxa.xhtml" 
                                             rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Ata de reunião" outcome="/pages/ataReuniao.xhtml"
+                                            rendered="#{!loginBean.usuarioLogado.sindico}"/>
                             </p:submenu>
                             
                         </p:panelMenu>

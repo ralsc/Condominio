@@ -11,9 +11,9 @@
     <ui:define name="body">
         <h:form id="form-ataReuniao" prependId="false">
             <div id="obrigatorio" align="right" style="float: right; width: 100%;" >
-                <h:outputText value="(*) Campos obrigatórios" style="color: red;" />
+                <h:outputText value="(*) Campos obrigatórios" style="color: red;" rendered="#{loginBean.usuarioLogado.sindico}"/>
             </div>
-            <p:fieldset legend="Cadastro de Ata de Reunião">
+            <p:fieldset legend="Cadastro de Ata de Reunião" rendered="#{loginBean.usuarioLogado.sindico}">
                 <h:panelGrid columns="3" columnClasses="coluna15,coluna35,coluna50" width="100%">
                                         
                     <p:outputLabel value="Descrição: *" />
@@ -28,11 +28,12 @@
                 </h:panelGrid>	
             </p:fieldset>
             <br/>
-            <center>
+            <center >
                 <p:commandButton id="cb-save" value="Salvar" action="#{ataReuniaoBean.save()}" title="Salvar" ajax="false" 
-                                 update=":msgs"/>
-                <h:outputText value="&#160;&#160;&#160;"/>
-                <p:commandButton id="cb-novo" value="Novo" action="#{ataReuniaoBean.novo()}" title="Novo" ajax="false" />
+                                 update=":msgs" rendered="#{loginBean.usuarioLogado.sindico}"/>
+                <h:outputText value="&#160;&#160;&#160;" rendered="#{loginBean.usuarioLogado.sindico}"/>
+                <p:commandButton id="cb-novo" value="Novo" action="#{ataReuniaoBean.novo()}" title="Novo" ajax="false" 
+                                 rendered="#{loginBean.usuarioLogado.sindico}"/>
             </center>
             <br/>
             
@@ -48,6 +49,7 @@
                 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                 currentPageReportTemplate="{currentPage} / {totalPages}"
                 rowIndexVar="rowIx">
+                <f:facet name="header">Tabela de ata de reunião</f:facet>
                 
                 <p:column headerText="Descrição">
                     <h:outputText value="#{ataReuniao.descricao}" />
@@ -57,15 +59,17 @@
                     <h:outputText value="#{ataReuniao.nomeArquivo}" />
                 </p:column>
                 
-                <p:column headerText="Ações" style="text-align: center;" >
-                    <p:commandButton update=":form-taxaMulta" action="#{ataReuniaoBean.editar()}" title="Editar" icon="ui-icon ui-icon-pencil" ajax="false">
+                <p:column headerText="Ações" style="text-align: center;" width="200">
+                    <p:commandButton update=":form-taxaMulta" action="#{ataReuniaoBean.editar()}" title="Editar" 
+                                     icon="ui-icon ui-icon-pencil" ajax="false" rendered="#{loginBean.usuarioLogado.sindico}">
                         <f:setPropertyActionListener target="#{ataReuniaoBean.ataReuniao}" value="#{ataReuniao}"/>
                     </p:commandButton>
-                    <h:outputText value="&#160;&#160;&#160;" />
-                    <p:commandButton id="cl-excluir" ajax="false" action="#{ataReuniaoBean.delete()}" title="Excluir" icon="ui-icon ui-icon-trash">
+                    <h:outputText value="&#160;&#160;&#160;" rendered="#{loginBean.usuarioLogado.sindico}"/>
+                    <p:commandButton id="cl-excluir" ajax="false" action="#{ataReuniaoBean.delete()}" title="Excluir" 
+                                     icon="ui-icon ui-icon-trash" rendered="#{loginBean.usuarioLogado.sindico}">
                         <f:setPropertyActionListener target="#{ataReuniaoBean.ataReuniao}" value="#{ataReuniao}"/>
                     </p:commandButton>
-                    <h:outputText value="&#160;&#160;&#160;" />
+                    <h:outputText value="&#160;&#160;&#160;" rendered="#{loginBean.usuarioLogado.sindico}"/>
                     <p:commandButton id="cb-download" icon="ui-icon ui-icon-arrowthickstop-1-s" title="Download" ajax="false" >								
                         <f:setPropertyActionListener target="#{ataReuniaoBean.ataReuniaoDown}" value="#{ataReuniao}"  />
                         <p:fileDownload value="#{ataReuniaoBean.fileDownload()}"/> 
