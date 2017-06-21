@@ -50,4 +50,18 @@ public class AgendamentoServicoDAO {
         session.close();
         return list;
     }
+    
+    public synchronized static Integer incNumRecibo(AgendamentoServico agendamentoServico) throws Exception{
+        SessionFactory sf = HibernateUtil.getSessionFactory();
+        Session session = sf.openSession();
+	Integer proxNum = (Integer) session.createSQLQuery(
+                "SELECT MAX(numeroRecibo) FROM AgendamentoServico").uniqueResult();
+	agendamentoServico.setNumeroRecibo(proxNum == null ? 1 : ++proxNum);
+        Transaction tr = session.beginTransaction();
+        session.saveOrUpdate(agendamentoServico);
+        tr.commit();
+        session.flush();
+        session.close();
+        return proxNum;
+    }
 }

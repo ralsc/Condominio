@@ -122,6 +122,10 @@ public class AgendamentoServicoBean implements Serializable{
     public void gerarRelatorio() throws Exception {
         try {			
             List<AgendamentoServico> dataSource = new ArrayList<>();
+            if(this.getAgendamentoServicoRel().getNumeroRecibo() == null){
+                this.getAgendamentoServicoRel().setNumeroRecibo(
+                    AgendamentoServicoDAO.incNumRecibo(this.getAgendamentoServicoRel()));
+            }
             dataSource.add(this.getAgendamentoServicoRel());
             Map<String, Object> parametros = new HashMap<>();
 

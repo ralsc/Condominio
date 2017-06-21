@@ -19,7 +19,7 @@
     <mapping class="entidades.PedidoProduto"/>
     <mapping class="entidades.AgendamentoServico"/>
     <mapping class="entidades.Condominio"/>
-    
+    <mapping class="entidades.AtaReuniao"/>
     <mapping class="entidades.TaxaMulta"/>
     <mapping class="entidades.TipoTaxaMulta"/>
   </session-factory>

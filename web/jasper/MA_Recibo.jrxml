@@ -23,7 +23,8 @@
 				<textElement textAlignment="Center">
 					<font size="24"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Recibo 17/2017"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Recibo "+$F{_THIS}.getNumeroRecibo()+"/"+
+new SimpleDateFormat("yyyy").format(new Date())]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
 				<reportElement x="25" y="77" width="505" height="20" uuid="d3036982-32db-4464-8137-84be0781e998"/>
@@ -32,7 +33,9 @@
 					<paragraph lineSpacing="1_1_2"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Recebi(emos) de <b>Condominio Residencial TownHouse</b>, a quantia"
-+" de <b>"+$F{_THIS}.getValor()+"</b>, correspondente ao <b>serviço de "+
++" de <b> R\$ "+
+new DecimalFormat("#,###.00").format($F{_THIS}.getValor())
++"</b> , correspondente ao <b>serviço de "+
 $F{_THIS}.getServico().getDescricao()+"</b>"
 +" do dia <b>"+new SimpleDateFormat("dd/MM/yyyy").format($F{_THIS}.getData())+
 "</b>, e clareza firmo(amos) o presente,"
