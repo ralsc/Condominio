@@ -73,7 +73,7 @@
                         <f:selectItems value="#{usuarioBean.listMoradores}" var="morador" itemValue="#{morador.id}" itemLabel="#{morador.nome}"  />
                     </p:selectOneMenu> 
                         
-                    <p:outputLabel value="Sindico: " />
+                    <p:outputLabel value="Síndico: " />
                     <p:selectBooleanCheckbox id="flSindico" value="#{usuarioBean.usuario.sindico}">
                         <p:ajax event="change" />
                     </p:selectBooleanCheckbox>

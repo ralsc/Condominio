@@ -10,41 +10,71 @@
     
     <f:view contentType="text/html">
         <h:head>
-                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-                <title>Sistema de condomínio</title>
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>TOWNHOUSE - Sistema de acompanhamento e gestão de condomínios</title>
+            <script src="../design/utils.js"></script>
+            <f:metadata>
+		<f:event type="preRenderView" listener="#{loginBean.valida}" />
+            </f:metadata>
         </h:head>
         
         <h:body>
             <h:form id="form-principal" prependId="false">
                 <p:layout fullPage="false">
                     
-                    <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
-                        Logo
+                    <p:layoutUnit position="north" maxSize="110" size="110" resizable="true" closable="true" collapsible="true">
+                        <div id="logo" width="40%" style="float: left;">
+                            <a href="#"><img width="50%" src="../img/logo.jpg" title="Townhouse"></img></a>
+			</div>
+                        <div id="empresa" align="left" width="30%" style="float: left;">
+                            <h1>TownHouse LTDA</h1>
+			</div>
+                        <div id="projeto" align="right" style="float: right;">
+                            <br /><br /><br />
+                            <h:panelGrid columns="2" style="align: right;" >
+                                <p:outputLabel value="Usuário logado: " style="font-weight: bold;"/>
+				<h:outputText value="#{loginBean.usuarioLogado.login}" />
+                            </h:panelGrid>
+			</div>
                     </p:layoutUnit>
                     
                     <p:layoutUnit position="south" size="50" closable="true" collapsible="true">
                         Rodapé caso necessário
                     </p:layoutUnit>
                     
-                    <p:layoutUnit position="west" size="250" header="Menu" collapsible="true">
+                    <p:layoutUnit position="west" size="270" header="Menu" collapsible="true">
                         <p:panelMenu>
-                            <p:submenu label="Cadastros" rendered="#{loginBean.usuarioLogado.sindico}">
+                            <p:submenu label="Cadastros" rendered="#{loginBean.usuarioLogado.sindico}" >
                                 <p:menuitem value="Usuário" outcome="/pages/usuario.xhtml" />
                                 <p:menuitem value="Unidade" outcome="/pages/unidade.xhtml" />
-                                <p:menuitem value="Taxa Multa" outcome="/pages/taxaMulta.xhtml" />
+                                <p:menuitem value="Taxas/Multas/Gás" outcome="/pages/taxaMulta.xhtml" />
                                 <p:menuitem value="Morador" outcome="/pages/morador.xhtml" />
                                 <p:menuitem value="Fornecedor" outcome="/pages/fornecedor.xhtml" />
                                 <p:menuitem value="Produto" outcome="/pages/produto.xhtml" />
                                 <p:menuitem value="Serviço" outcome="/pages/servico.xhtml" />
+                                <p:menuitem value="Ata de reunião" outcome="/pages/ataReuniao.xhtml" />
                             </p:submenu>
                             <p:submenu label="Operações" rendered="#{loginBean.usuarioLogado.sindico}">
                                 <p:menuitem value="Agendar Serviço" outcome="/pages/agendarServico.xhtml" />
+                                <p:menuitem value="Realizar Pedido" outcome="/pages/pedidoProduto.xhtml" />
                                 <p:menuitem value="Gerar Boletos" outcome="/pages/gerarBoleto.xhtml" />
                             </p:submenu>  
                             <p:submenu label="Visualizações" >
-                                <p:menuitem value="Relatório de Entrada/Saída" outcome="/pages/relEntradaSaida.xhtml" rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Moradores Inadimplentes" outcome="/pages/moradorInadimplente.xhtml" 
+                                            rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Visualizar Boleto" outcome="/pages/visualizarBoleto.xhtml" 
+                                            rendered="#{!loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Relatório de Entrada/Saída" outcome="/pages/relEntradaSaida.xhtml" 
+                                            rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Relatório de Chamada de Capital e Multas" outcome="/pages/relTipoTaxa.xhtml" 
+                                            rendered="#{loginBean.usuarioLogado.sindico}"/>
+                                <p:menuitem value="Ata de reunião" outcome="/pages/ataReuniao.xhtml"
+                                            rendered="#{!loginBean.usuarioLogado.sindico}"/>
                             </p:submenu>
+                            
                         </p:panelMenu>
+                        <p:commandButton id="cb-logout" value="Logout" action="#{loginBean.logout()}" title="Logout" ajax="false" 
+                                 update="msgs" style="width: 260px; height: 34px;"/>
                     </p:layoutUnit>
                     
                     <p:layoutUnit position="center">
