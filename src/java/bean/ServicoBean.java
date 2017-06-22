@@ -83,7 +83,7 @@ public class ServicoBean implements Serializable{
             this.setServico(new Servico());
             this.setIdFornecedor(null);
             this.setEdicao(false);
-            FacesMessagesUtil.addInfoMessage("msgs","msgs","Excluido com sucesso!");
+            FacesMessagesUtil.addInfoMessage("msgs","msgs","Excluído com sucesso!");
         } catch (Exception ex) {
             FacesMessagesUtil.addErrorMessage("msgs","msgs","Erro ao excluir!\n"+ex.getMessage());
         }

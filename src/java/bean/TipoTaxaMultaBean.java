@@ -70,7 +70,7 @@ public class TipoTaxaMultaBean implements Serializable{
             this.setListTipoTaxaMultas(null);
             this.setTipoTaxaMulta(new TipoTaxaMulta());
             this.setEdicao(false);
-            FacesMessagesUtil.addInfoMessage("msgs","msgs","Excluido com sucesso!");
+            FacesMessagesUtil.addInfoMessage("msgs","msgs","Excluído com sucesso!");
         } catch (Exception ex) {
             FacesMessagesUtil.addErrorMessage("msgs","msgs","Erro ao excluir!\n"+ex.getMessage());
         }

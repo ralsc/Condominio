@@ -83,7 +83,7 @@ public class MoradorBean implements Serializable{
             this.setMorador(new Morador());
             this.setIdUnidade(null);
             this.setEdicao(false);
-            FacesMessagesUtil.addInfoMessage("msgs","msgs","Excluido com sucesso!");
+            FacesMessagesUtil.addInfoMessage("msgs","msgs","Excluído com sucesso!");
         } catch (Exception ex) {
             FacesMessagesUtil.addErrorMessage("msgs","msgs","Erro ao excluir!\n"+ex.getMessage());
         }

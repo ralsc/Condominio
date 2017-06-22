@@ -79,7 +79,7 @@ public class UnidadeBean implements Serializable{
             this.setListUnidades(null);
             this.setUnidade(new Unidade());
             this.setEdicao(false);
-            FacesMessagesUtil.addInfoMessage("msgs","msgs","Excluido com sucesso!");
+            FacesMessagesUtil.addInfoMessage("msgs","msgs","Excluído com sucesso!");
         } catch (Exception ex) {
             FacesMessagesUtil.addErrorMessage("msgs","msgs","Erro ao excluir!\n"+ex.getMessage());
         }
